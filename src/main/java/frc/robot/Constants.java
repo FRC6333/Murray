@@ -1,0 +1,60 @@
+package frc.robot;
+
+public final class Constants {
+    // Universal stop speed.
+    public static final double kStopSpeed = 0;
+
+    // Button Preset Settings
+    public static final double kDoNothing = 100;
+
+    // Joystick assignments.
+    public static final int kDriveJoystick = 0;
+    //public static final int kArmJoystick = 1;
+
+    //motor assignement constants
+        //Drive Motors
+        public static final int kRightFrontMotor = 1;
+        public static final int kRightRearMotor  = 2;
+        public static final int kLeftFrontMotor  = 9;
+        public static final int kLeftRearMotor   = 10;
+    
+        // Motor Power Constnats
+        public static final double DrivePower = 2;
+        public static final double TurnPower  = 2;
+    
+    // PID Constants
+        //Bottom PID Constants
+        // PID coefficients
+        public static final double BkP         =  0.2; 
+        public static final double BkI         =  0.0;
+        public static final double BkD         =  0.0; 
+        public static final double BkIz        =  0; 
+        public static final double BkFF        =  0; 
+        public static final double BkMaxOutput =  0.3; 
+        public static final double BkMinOutput = -0.3;
+
+        //Top PID Contants
+        //PID coefficients
+        public static final double TkP         =  0.2; 
+        public static final double TkI         =  0.0;
+        public static final double TkD         =  0.0; 
+        public static final double TkIz        =  0; 
+        public static final double TkFF        =  0; 
+        public static final double TkMaxOutput =  0.3; 
+        public static final double TkMinOutput = -0.3;
+
+    // Digital Inputs
+        // Bottom Joint Digital Inputs
+        public static final int kBottomDownLimitInput = 3;
+        public static final int kBottomUpLimitInput   = 4;
+        // Top Joint Digital Inputs
+        public static final int kTopForwardLimitInput = 1;
+        public static final int kTopBackLimitInput    = 2;
+        //Encoder
+        public static final int kEncoderChan1 = 5;
+        public static final int kEncoderChan2 = 6;
+
+    // Reset Speeds
+        public static final double kResetSpeedMax =  0.2;
+        public static final double kResetSpeedMin = -0.2;
+}
