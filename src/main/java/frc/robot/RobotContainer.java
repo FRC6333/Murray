@@ -14,9 +14,9 @@ public class RobotContainer {
 
     private final StandardDrive m_StandardDrive = new StandardDrive(
         m_MechDrive, 
-        ()->DriveController.getLeftY(),                                                             
-        ()->DriveController.getLeftX(), 
-        ()->DriveController.getRightX()
+        ()->DriveController.getLeftY(),
+        ()-> DriveController.getRightX()*-1,
+        ()-> DriveController.getLeftX()
     );
     
     // Container for robot, defines hardware, subsystems, and commands robot can use.

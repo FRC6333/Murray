@@ -25,14 +25,11 @@ public class StandardDrive extends Command {
 
     @Override
     public void execute(){
-        double forwardSpeed = Math.pow(forward.getAsDouble(), Constants.DrivePower);
-        
-        
-        double sideSpeed = Math.pow(side.getAsDouble(), Constants.DrivePower);
-        double turnSpeed = Math.pow(Math.abs(turn.getAsDouble()), Constants.TurnPower) * Math.signum(turn.getAsDouble());
+        double forwardSpeed = Math.pow(Math.abs(forward.getAsDouble()), Constants.DrivePower)*Math.signum(forward.getAsDouble());
+        double sideSpeed = Math.pow(Math.abs(side.getAsDouble()),Constants.StrafePower)*Math.signum(side.getAsDouble());
+        double turnSpeed = Math.pow(Math.abs(turn.getAsDouble()), Constants.TurnPower)*Math.signum(turn.getAsDouble());
 
-        mechDrive.translate(forwardSpeed, sideSpeed);
-        mechDrive.rotate(turnSpeed);
+        mechDrive.drive(forwardSpeed, sideSpeed, turnSpeed);
 
     }
 

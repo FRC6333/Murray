@@ -13,13 +13,14 @@ public final class Constants {
 
     //motor assignement constants
         //Drive Motors
-        public static final int kRightFrontMotor = 1;
-        public static final int kRightRearMotor  = 2;
-        public static final int kLeftFrontMotor  = 9;
-        public static final int kLeftRearMotor   = 10;
+        public static final int kRightFrontMotor = 6;
+        public static final int kRightRearMotor  = 9;
+        public static final int kLeftFrontMotor  = 7;
+        public static final int kLeftRearMotor   = 8;
     
         // Motor Power Constnats
         public static final double DrivePower = 2;
+        public static final double StrafePower = 2;
         public static final double TurnPower  = 2;
     
     // PID Constants
