@@ -2,7 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.StandardDrive;
-
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.MechDrive;
 
 public class RobotContainer {
@@ -11,6 +11,7 @@ public class RobotContainer {
 
     // Subsys
     private final MechDrive m_MechDrive = new MechDrive();
+    private final Intake m_intake = new Intake();
 
     private final StandardDrive m_StandardDrive = new StandardDrive(
         m_MechDrive, 

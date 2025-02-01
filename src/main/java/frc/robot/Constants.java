@@ -17,6 +17,10 @@ public final class Constants {
         public static final int kRightRearMotor  = 9;
         public static final int kLeftFrontMotor  = 7;
         public static final int kLeftRearMotor   = 8;
+
+        // Intake motors
+        public static final int kIntakePositionMotor = -1;
+        public static final int kIntakeMotor = -1;
     
         // Motor Power Constnats
         public static final double DrivePower = 2;
