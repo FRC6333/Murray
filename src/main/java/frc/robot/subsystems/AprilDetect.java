@@ -15,6 +15,9 @@ public class AprilDetect extends SubsystemBase {
     private AprilTagDetector m_tagDetector;  // Detects april tags and decodes tag ids
     private AprilTagPoseEstimator m_PoseEstimator;  // Attempts to determine the pose of an AprilTagDetection
 
+    private HashMap<Integer,Transform3d> poses;
+    private AprilTagDetection[] detections;
+
     public AprilDetect(){
         // Setup tag detector.
         AprilTagDetector.Config detectionConfig = new AprilTagDetector.Config(); // Set this during testing.
@@ -40,11 +43,13 @@ public class AprilDetect extends SubsystemBase {
         m_PoseEstimator = new AprilTagPoseEstimator(estimationConfig);
     }
 
+
+
     /**
      * Detect on a new frame from the camera and return the decoded id and estimated pose.
      * @return HashMap for all detected tag poses indexed by tag id.
      */
-    public HashMap<Integer, Transform3d> attemptDetection(){
+    public void attemptDetection(){
         // Get image from cameraserver
         Mat image = new Mat();
         CameraServer.getVideo().grabFrame(image);
@@ -52,14 +57,42 @@ public class AprilDetect extends SubsystemBase {
         // preprocess (TODO?)
         
         // detect
-        AprilTagDetection[] detections = m_tagDetector.detect(image);
+        this.detections = m_tagDetector.detect(image);
         
         // Estimate poses
-        HashMap<Integer, Transform3d> poses = new HashMap<>();
+        this.poses = new HashMap<>();
         for (int i=0; i < detections.length; i++) {
             poses.put(Integer.valueOf(detections[i].getId()), m_PoseEstimator.estimate(detections[i]));
         }
-        
-        return poses;
+    }
+
+    /**
+     * Get the poses of the last attempted detections.
+     * @return HashMap of poses from last attempt, where key is tag id.
+     */
+    public HashMap<Integer, Transform3d> getPoses(){
+        return this.poses;
+    }
+
+    /**
+     * Get the last detections.
+     * @return Array of detections from last attempt.
+     */
+    public AprilTagDetection[] getDetections(){
+        return this.detections;
+    }
+
+    /**
+     * Get the last detection that coresponds to a specific tag id.
+     * 
+     * Returns null if the requested id was not detected.
+     * @param id id of tag to detect.
+     * @return Detection for the given tag id.
+     */
+    public AprilTagDetection getDetection(int id){
+        for (AprilTagDetection detection : detections) {
+            if (detection.getId() == id) return detection;
+        }
+        return null;
     }
 }
