@@ -4,12 +4,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.Intake;
 
-public class RaiseIntake extends Command {
+public class LowerIntake extends Command {
 
     private Intake intake;
     private boolean done = false;
 
-    public RaiseIntake(Intake i){
+    public LowerIntake(Intake i){
         intake = i;
 
         addRequirements(intake);
@@ -17,7 +17,7 @@ public class RaiseIntake extends Command {
 
     @Override
     public void execute(){
-        intake.PositionUp(Constants.kIntakePositionSpeed);
+        intake.PositionDown(Constants.kIntakePositionSpeed);
         done = true;
     }
 

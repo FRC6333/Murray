@@ -49,17 +49,19 @@ public final class Constants {
         public static final double TkMinOutput = -0.3;
 
     // Digital Inputs
-        // Bottom Joint Digital Inputs
-        public static final int kBottomDownLimitInput = 3;
-        public static final int kBottomUpLimitInput   = 4;
-        // Top Joint Digital Inputs
-        public static final int kTopForwardLimitInput = 1;
-        public static final int kTopBackLimitInput    = 2;
+        // Intake Limits
+        public static final int kBottomLimitChannel = 1;
+        public static final int kTopLimitChannel    = 2;
         //Encoder
-        public static final int kEncoderChan1 = 5;
-        public static final int kEncoderChan2 = 6;
+        //public static final int kEncoderChan1 = 5;
+        //public static final int kEncoderChan2 = 6;
 
     // Reset Speeds
         public static final double kResetSpeedMax =  0.2;
         public static final double kResetSpeedMin = -0.2;
+    
+    // Simple Motor Speeds
+        // Intake
+        public static final double kIntakePositionSpeed = 0.2;
+        public static final double kIntakePushPullSpeed = 0.2;
 }

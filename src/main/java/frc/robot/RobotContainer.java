@@ -2,7 +2,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import frc.robot.commands.DebugAprilTag;
+import frc.robot.commands.PullIntake;
 import frc.robot.commands.StandardDrive;
 import frc.robot.subsystems.AprilDetect;
 import frc.robot.subsystems.Intake;
@@ -29,7 +31,8 @@ public class RobotContainer {
     // Container for robot, defines hardware, subsystems, and commands robot can use.
     public RobotContainer(){
         m_MechDrive.setDefaultCommand(m_StandardDrive);
-        CommandScheduler.getInstance().schedule(m_DebugAprilTag.withTimeout(2).repeatedly());
+        scheduler.schedule(m_DebugAprilTag.withTimeout(2).repeatedly());
+        scheduler.schedule(new ConditionalCommand(new PullIntake(m_intake), null, () -> DriveController.getAButton()).repeatedly());
 
     }
 }
