@@ -1,11 +1,19 @@
 package frc.robot;
 
 import java.util.function.DoubleSupplier;
+
+import edu.wpi.first.hal.DriverStationJNI;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DebugAprilTag;
 import frc.robot.commands.PullIntake;
+import frc.robot.commands.PushIntake;
+import frc.robot.commands.StopIntake;
 import frc.robot.commands.StandardDrive;
 import frc.robot.subsystems.AprilDetect;
 import frc.robot.subsystems.Intake;
@@ -43,22 +51,38 @@ public class RobotContainer {
         () -> DriveController.getLeftX(),
         () -> DriveController.getRightX()
     };
-    private DoubleSupplier[] currentLayout = twoDimLayout;
+    
+    private SendableChooser<DoubleSupplier[]> m_layoutChooser = new SendableChooser<DoubleSupplier[]>();
 
-    private final StandardDrive m_StandardDrive = new StandardDrive(
-        m_MechDrive, 
-        currentLayout[0],
-        currentLayout[1],
-        currentLayout[2]
-    );
+    private final StandardDrive m_StandardDrive;
+
+    
 
     private final DebugAprilTag m_DebugAprilTag = new DebugAprilTag(m_Detector);
     
     // Container for robot, defines hardware, subsystems, and commands robot can use.
     public RobotContainer(){
-        m_MechDrive.setDefaultCommand(m_StandardDrive);
-        scheduler.schedule(m_DebugAprilTag.withTimeout(2).repeatedly());
-        scheduler.schedule(new ConditionalCommand(new PullIntake(m_intake), null, () -> DriveController.getAButton()).repeatedly());
+        m_layoutChooser.setDefaultOption("2D Control", twoDimLayout);
+        m_layoutChooser.addOption("Car Control", carLayout);
+        m_layoutChooser.addOption("Single Stick Control", stickLayout);
+        m_layoutChooser.addOption("Tank Control", tankLayout);
+        SmartDashboard.putData("Layout Chooser",m_layoutChooser);
 
+        m_StandardDrive = new StandardDrive(m_MechDrive, m_layoutChooser.getSelected());
+        m_MechDrive.setDefaultCommand(m_StandardDrive);
+        m_layoutChooser.onChange((DoubleSupplier[] newLayout) -> m_StandardDrive.setLayout(newLayout));
+        
+        scheduler.schedule(m_DebugAprilTag);
+        //scheduler.schedule((new StopIntake(m_intake, DriveController)).repeatedly());
+
+        //Trigger triggerPullIntake = new JoystickButton(DriveController, 0);
+        //triggerPullIntake.onTrue(new PullIntake(m_intake));
+        //Trigger triggerPushIntake = new JoystickButton(DriveController, 1);
+        //triggerPushIntake.onTrue(new PushIntake(m_intake));
+
+    }
+
+    public void initalized(){
+        DriverStation.reportWarning("Robot Init!\n",false);
     }
 }

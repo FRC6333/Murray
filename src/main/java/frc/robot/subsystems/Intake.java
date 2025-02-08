@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
-    private WPI_TalonSRX PostitionMotor = new WPI_TalonSRX(Constants.kIntakePositionMotor);
+    private WPI_TalonSRX PostitionMotorL = new WPI_TalonSRX(Constants.kIntakePositionMotorL);
+    private WPI_TalonSRX PostitionMotorR = new WPI_TalonSRX(Constants.kIntakePositionMotorR);
     private WPI_TalonSRX IntakeMotor = new WPI_TalonSRX(Constants.kIntakeMotor);
 
     private DigitalInput bottomLimit = new DigitalInput(Constants.kBottomLimitChannel);
@@ -16,8 +17,13 @@ public class Intake extends SubsystemBase {
 
 
     public Intake(){
-        PostitionMotor.setNeutralMode(NeutralMode.Brake);
-        IntakeMotor.setNeutralMode(NeutralMode.Coast);
+        PostitionMotorL.setNeutralMode(NeutralMode.Brake);
+        PostitionMotorL.setInverted(true);
+        
+        PostitionMotorR.setNeutralMode(NeutralMode.Brake);
+        PostitionMotorR.setInverted(false);
+        
+        IntakeMotor.setNeutralMode(NeutralMode.Brake);
     }
 
     public boolean GetBottomLimit(){
@@ -30,17 +36,22 @@ public class Intake extends SubsystemBase {
 
     public void PositionUp(double speed){
         while (!GetTopLimit()) {
-            PostitionMotor.set(Math.abs(speed));  // Assure the intake is only moving UP.
+            PostitionMotorL.set(Math.abs(speed));  // Assure the intake is only moving UP.
+            PostitionMotorR.set(Math.abs(speed));
         }
+        StopPosition();
     }
     public void PositionDown(double speed){
         while (!GetBottomLimit()) {
-            PostitionMotor.set(Math.abs(speed)*-1);  // Assure the intake is only moving DOWN.
+            PostitionMotorL.set(Math.abs(speed)*-1);  // Assure the intake is only moving DOWN.
+            PostitionMotorR.set(Math.abs(speed)*-1);
         }
+        StopPosition();
     }
 
     public void StopPosition(){
-        PostitionMotor.set(0);
+        PostitionMotorL.set(0);
+        PostitionMotorR.set(0);
     }
 
     public void PullPush(double speed){

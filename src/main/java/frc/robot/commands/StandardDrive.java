@@ -9,25 +9,25 @@ import frc.robot.subsystems.MechDrive;
 
 public class StandardDrive extends Command {
     private final MechDrive mechDrive;
-    private DoubleSupplier forward;
-    private DoubleSupplier side;
-    private DoubleSupplier turn;
+    private DoubleSupplier[] layout;  // [forward, side, turn]
+    
 
-    public StandardDrive (MechDrive drive, DoubleSupplier f, DoubleSupplier s, DoubleSupplier t){
+    public StandardDrive (MechDrive drive, DoubleSupplier[] layout){
         this.mechDrive = drive;
-        
-        this.forward  = f;
-        this.side     = s;
-        this.turn     = t;
+        this.layout = layout;
 
         addRequirements(mechDrive);
     }
 
+    public void setLayout(DoubleSupplier[] layout){
+        this.layout = layout;
+    }
+
     @Override
     public void execute(){
-        double forwardSpeed = Math.pow(Math.abs(forward.getAsDouble()), Constants.DrivePower)*Math.signum(forward.getAsDouble())*Constants.kInvertForward;
-        double sideSpeed = Math.pow(Math.abs(side.getAsDouble()),Constants.StrafePower)*Math.signum(side.getAsDouble())*Constants.kInvertStrafe;
-        double turnSpeed = Math.pow(Math.abs(turn.getAsDouble()), Constants.TurnPower)*Math.signum(turn.getAsDouble())*Constants.kInvertTurn;
+        double forwardSpeed = Math.pow(Math.abs(layout[0].getAsDouble()), Constants.DrivePower)*Math.signum(layout[0].getAsDouble())*Constants.kInvertForward;
+        double sideSpeed = Math.pow(Math.abs(layout[1].getAsDouble()),Constants.StrafePower)*Math.signum(layout[1].getAsDouble())*Constants.kInvertStrafe;
+        double turnSpeed = Math.pow(Math.abs(layout[2].getAsDouble()), Constants.TurnPower)*Math.signum(layout[2].getAsDouble())*Constants.kInvertTurn;
 
         mechDrive.drive(forwardSpeed, sideSpeed, turnSpeed);
 
