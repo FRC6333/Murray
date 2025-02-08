@@ -5,7 +5,6 @@ import java.util.HashMap;
 import edu.wpi.first.apriltag.AprilTagDetection;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.subsystems.AprilDetect;
 
 public class DebugAprilTag extends Command {

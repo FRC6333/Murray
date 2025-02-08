@@ -29,7 +29,7 @@ public class AprilDetect extends SubsystemBase {
         m_tagDetector = new AprilTagDetector();
         m_tagDetector.setConfig(detectionConfig);                       // Set image processing parameters
         m_tagDetector.setQuadThresholdParameters(thresholdParameters);  // Set quad detection parameters.
-        m_tagDetector.addFamily("36h11");                           // Set tag type.
+        m_tagDetector.addFamily("tag36h11");                           // Set tag type.
         
         // Setup pose estimator.
         AprilTagPoseEstimator.Config estimationConfig = new AprilTagPoseEstimator.Config(
