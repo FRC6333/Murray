@@ -1,8 +1,11 @@
 package frc.robot;
 
 public final class Constants {
-    // Universal stop speed.
-    public static final double kStopSpeed = 0;
+    // Speeds.
+    public static final double kStop = 0;
+    public static final double kGentley = 0.1;
+    public static final double kHalf    = 0.5;
+    public static final double kFull    = 0.95;
 
     // Button Preset Settings
     public static final double kDoNothing = 100;
@@ -26,12 +29,20 @@ public final class Constants {
         // Intake motors
         public static final int kIntakePositionMotorL = -1;
         public static final int kIntakePositionMotorR = -1;
-        public static final int kIntakeMotor = -1;
+        public static final int kIntakeMotor          = -1;
+
+        // Elevator motor
+        public static final int kElevatorMotor = -1;
+
+        // Arm Motors
+        public static final int kForearmMotor = -1;
+        public static final int kWristMotor   = -1;
+        public static final int kClawMotor    = -1;
     
-        // Motor Power Constnats
-        public static final double DrivePower = 2;
+        // Motor Power Constants
+        public static final double DrivePower  = 2;
         public static final double StrafePower = 2;
-        public static final double TurnPower  = 2;
+        public static final double TurnPower   = 2;
     
     // PID Constants
         //Bottom PID Constants
@@ -56,18 +67,34 @@ public final class Constants {
 
     // Digital Inputs
         // Intake Limits
-        public static final int kBottomLimitChannel = 1;
-        public static final int kTopLimitChannel    = 2;
-        //Encoder
-        //public static final int kEncoderChan1 = 5;
-        //public static final int kEncoderChan2 = 6;
+        public static final int kBottomLimitChannel = -1;
+        public static final int kTopLimitChannel    = -1;
+        
+        // Elevator Limit
+        public static final int kElevatorLimitChannel = -1;
+        
+        // Arm Limits
+        public static final int kForearmLimitChannel = -1;
+        public static final int kWristLimitChannel = -1;
+        
+    //Encoder
+        // Elevator
+        public static final int kElevatorEncoderChan1 = -1;
+        public static final int kElevatorEncoderChan2 = -2;
+
+        // Arm
+        public static final int kForearmEncoderChan1 = -1;
+        public static final int kForearmEncoderChan2 = -2;
+        public static final int kWristEncoderChan1 = -1;
+        public static final int kWristEncoderChan2 = -2;
+
+
+    // Encoder Limit Values
+        // Arm Limits
+        public static final int kForearmEncoderLimit = 1000;
+        public static final int kWristEncoderLimit = 1000;
 
     // Reset Speeds
         public static final double kResetSpeedMax =  0.2;
         public static final double kResetSpeedMin = -0.2;
-    
-    // Simple Motor Speeds
-        // Intake
-        public static final double kIntakePositionSpeed = 0.2;
-        public static final double kIntakePushPullSpeed = 0.2;
 }

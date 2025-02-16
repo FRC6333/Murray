@@ -17,7 +17,7 @@ public class RaiseIntake extends Command {
 
     @Override
     public void execute(){
-        intake.PositionUp(Constants.kIntakePositionSpeed);
+        while(! intake.GetTopLimit()) intake.PositionUp(Constants.kGentley);
         done = true;
     }
 

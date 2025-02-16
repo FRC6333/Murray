@@ -1,6 +1,11 @@
 package frc.robot.subsystems;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -8,45 +13,47 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
-    private WPI_TalonSRX PostitionMotorL = new WPI_TalonSRX(Constants.kIntakePositionMotorL);
-    private WPI_TalonSRX PostitionMotorR = new WPI_TalonSRX(Constants.kIntakePositionMotorR);
-    private WPI_TalonSRX IntakeMotor = new WPI_TalonSRX(Constants.kIntakeMotor);
+    private SparkMax PostitionMotorL = new SparkMax(Constants.kIntakePositionMotorL, MotorType.kBrushless);
+    private SparkMax PostitionMotorR = new SparkMax(Constants.kIntakePositionMotorR, MotorType.kBrushless);
+    private SparkMax IntakeMotor = new SparkMax(Constants.kIntakeMotor, MotorType.kBrushless);
 
-    private DigitalInput bottomLimit = new DigitalInput(Constants.kBottomLimitChannel);
-    private DigitalInput topLimit = new DigitalInput(Constants.kTopLimitChannel);
+    private DigitalInput BottomLimit = new DigitalInput(Constants.kBottomLimitChannel);
+    private DigitalInput TopLimit = new DigitalInput(Constants.kTopLimitChannel);
 
 
     public Intake(){
-        PostitionMotorL.setNeutralMode(NeutralMode.Brake);
-        PostitionMotorL.setInverted(true);
+        SparkMaxConfig intakeConfig = new SparkMaxConfig();
+        SparkMaxConfig intakeConfigInverted = new SparkMaxConfig();
+        intakeConfig.idleMode(IdleMode.kBrake);
+        intakeConfigInverted.idleMode(IdleMode.kBrake);
+        intakeConfigInverted.inverted(true);
         
-        PostitionMotorR.setNeutralMode(NeutralMode.Brake);
-        PostitionMotorR.setInverted(false);
-        
-        IntakeMotor.setNeutralMode(NeutralMode.Brake);
+        PostitionMotorL.configure(intakeConfigInverted, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        PostitionMotorR.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        IntakeMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     public boolean GetBottomLimit(){
-        return bottomLimit.get();
+        return BottomLimit.get();
     }
 
     public boolean GetTopLimit(){
-        return topLimit.get();
+        return TopLimit.get();
     }
 
     public void PositionUp(double speed){
-        while (!GetTopLimit()) {
+        if (!GetTopLimit()) {
             PostitionMotorL.set(Math.abs(speed));  // Assure the intake is only moving UP.
             PostitionMotorR.set(Math.abs(speed));
         }
-        StopPosition();
+        else StopPosition();
     }
     public void PositionDown(double speed){
-        while (!GetBottomLimit()) {
+        if (!GetBottomLimit()) {
             PostitionMotorL.set(Math.abs(speed)*-1);  // Assure the intake is only moving DOWN.
             PostitionMotorR.set(Math.abs(speed)*-1);
         }
-        StopPosition();
+        else StopPosition();
     }
 
     public void StopPosition(){

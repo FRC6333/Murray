@@ -17,7 +17,7 @@ public class LowerIntake extends Command {
 
     @Override
     public void execute(){
-        intake.PositionDown(Constants.kIntakePositionSpeed);
+        intake.PositionDown(Constants.kGentley);
         done = true;
     }
 

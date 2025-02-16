@@ -2,25 +2,24 @@ package frc.robot;
 
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.hal.DriverStationJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DebugAprilTag;
+import frc.robot.commands.StandardDrive;
+import frc.robot.commands.StopIntake;
 import frc.robot.commands.PullIntake;
 import frc.robot.commands.PushIntake;
-import frc.robot.commands.StopIntake;
-import frc.robot.commands.StandardDrive;
 import frc.robot.subsystems.AprilDetect;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.MechDrive;
 
 public class RobotContainer {
-    private static CommandScheduler scheduler = CommandScheduler.getInstance();
 
     // Controls
     public static XboxController DriveController = new XboxController(Constants.kDriveJoystick);
@@ -28,7 +27,9 @@ public class RobotContainer {
 
     // Subsys
     private final MechDrive m_MechDrive = new MechDrive();
-    private final Intake m_intake = new Intake();
+    private final Intake m_Intake = new Intake();
+    private final Elevator m_Elevator = new Elevator();
+    private final Arm m_Arm = new Arm();
     private final AprilDetect m_Detector = new AprilDetect();
 
     private final DoubleSupplier[] carLayout = {
@@ -72,13 +73,16 @@ public class RobotContainer {
         m_MechDrive.setDefaultCommand(m_StandardDrive);
         m_layoutChooser.onChange((DoubleSupplier[] newLayout) -> m_StandardDrive.setLayout(newLayout));
         
-        scheduler.schedule(m_DebugAprilTag);
-        //scheduler.schedule((new StopIntake(m_intake, DriveController)).repeatedly());
+        m_DebugAprilTag.repeatedly().schedule();
+        System.out.println(m_DebugAprilTag.isScheduled());
+        
+        StopIntake m_intakeStop = new StopIntake(m_Intake, DriveController);
+        m_intakeStop.repeatedly().schedule();
 
-        //Trigger triggerPullIntake = new JoystickButton(DriveController, 0);
-        //triggerPullIntake.onTrue(new PullIntake(m_intake));
-        //Trigger triggerPushIntake = new JoystickButton(DriveController, 1);
-        //triggerPushIntake.onTrue(new PushIntake(m_intake));
+        Trigger triggerPullIntake = new JoystickButton(DriveController, 0);
+        triggerPullIntake.onTrue(new PullIntake(m_Intake));
+        Trigger triggerPushIntake = new JoystickButton(DriveController, 1);
+        triggerPushIntake.onTrue(new PushIntake(m_Intake));
 
     }
 

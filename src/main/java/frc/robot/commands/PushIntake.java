@@ -18,7 +18,7 @@ public class PushIntake extends Command {
     @Override
     public void execute(){
         if (intake.GetBottomLimit()){
-            double speed = Constants.kIntakePushPullSpeed;
+            double speed = Constants.kGentley;
             intake.PullPush(speed);
         }
         else{
