@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DebugAprilTag;
+import frc.robot.commands.MoveElevator;
 import frc.robot.commands.StandardDrive;
 import frc.robot.commands.StopIntake;
 import frc.robot.commands.PullIntake;
@@ -57,7 +58,7 @@ public class RobotContainer {
 
     private final StandardDrive m_StandardDrive;
 
-    
+    private final MoveElevator m_MoveElevator;
 
     private final DebugAprilTag m_DebugAprilTag = new DebugAprilTag(m_Detector);
     
@@ -72,6 +73,10 @@ public class RobotContainer {
         m_StandardDrive = new StandardDrive(m_MechDrive, m_layoutChooser.getSelected());
         m_MechDrive.setDefaultCommand(m_StandardDrive);
         m_layoutChooser.onChange((DoubleSupplier[] newLayout) -> m_StandardDrive.setLayout(newLayout));
+
+        
+        m_MoveElevator = new MoveElevator(m_Elevator, m_Intake, () -> ArmController.getLeftY());
+        m_Elevator.setDefaultCommand(m_MoveElevator);
         
         m_DebugAprilTag.repeatedly().schedule();
         System.out.println(m_DebugAprilTag.isScheduled());

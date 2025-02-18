@@ -38,22 +38,17 @@ public class Elevator extends SubsystemBase{
         return ElevatorEncoder.getPosition();
     }
 
-    public void raiseElevator(double speed){
-        if (ElevatorEncoder.getPosition() >= EncoderTopLimit){
+    public void moveElevator(double speed){
+        if (speed > 0 && ElevatorEncoder.getPosition() >= EncoderTopLimit){
             ElevatorMotor.set(0f);
         }
-        else{
-            ElevatorMotor.set(Math.abs(speed));
-        }
-    }
-
-    public void lowerElevator(double speed){
-        if (BottomLimit.get()){
+        else if(speed < 0 && BottomLimit.get()){
+            ElevatorMotor.set(0f);
             ElevatorEncoder.setPosition(0);
-            ElevatorMotor.set(0f);
         }
         else{
-            ElevatorMotor.set(Math.abs(speed) * -1);
+            // TODO: Reduce speed NEAR top/bottom limits
+            ElevatorMotor.set(speed);
         }
     }
 }
