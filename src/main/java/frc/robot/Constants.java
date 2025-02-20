@@ -93,8 +93,10 @@ public final class Constants {
         // Arm Limits
         public static final int kForearmEncoderLimit = 1000;
         public static final int kWristEncoderLimit = 1000;
+        public static final double kElevatorUsableHeightLimit = 1000;
 
     // Reset Speeds
         public static final double kResetSpeedMax =  0.2;
         public static final double kResetSpeedMin = -0.2;
+        
 }

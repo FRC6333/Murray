@@ -52,6 +52,14 @@ public class Arm extends SubsystemBase {
         }
     }
 
+    public double getWristEncoder(){
+        return WristEncoder.getPosition();
+    }
+
+    public boolean getWristLimit(){
+        return WristLimit.get();
+    }
+
     public void wristVertical(double speed){
         if (!WristLimit.get()){
             WristMotor.set(Math.abs(speed));

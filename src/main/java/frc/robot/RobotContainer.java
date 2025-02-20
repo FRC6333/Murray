@@ -10,14 +10,14 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DebugAprilTag;
 import frc.robot.commands.MoveElevator;
+import frc.robot.commands.PullIntake;
 import frc.robot.commands.StandardDrive;
 import frc.robot.commands.StopIntake;
-import frc.robot.commands.PullIntake;
 import frc.robot.commands.PushIntake;
 import frc.robot.subsystems.AprilDetect;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Arm;
+//import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.MechDrive;
 
 public class RobotContainer {
@@ -30,7 +30,7 @@ public class RobotContainer {
     private final MechDrive m_MechDrive = new MechDrive();
     private final Intake m_Intake = new Intake();
     private final Elevator m_Elevator = new Elevator();
-    private final Arm m_Arm = new Arm();
+    //private final Arm m_Arm = new Arm();
     private final AprilDetect m_Detector = new AprilDetect();
 
     private final DoubleSupplier[] carLayout = {
