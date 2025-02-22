@@ -21,23 +21,23 @@ public final class Constants {
 
     //motor assignement constants
         //Drive Motors
-        public static final int kRightFrontMotor = 6;
-        public static final int kRightRearMotor  = 9;
-        public static final int kLeftFrontMotor  = 7;
-        public static final int kLeftRearMotor   = 8;
+        public static final int kRightFrontMotor = 2;
+        public static final int kRightRearMotor  = 4;
+        public static final int kLeftFrontMotor  = 1;
+        public static final int kLeftRearMotor   = 3;
 
         // Intake motors
-        public static final int kIntakePositionMotorL = -1;
-        public static final int kIntakePositionMotorR = -1;
-        public static final int kIntakeMotor          = -1;
+        public static final int kIntakePositionMotorL = 6;
+        public static final int kIntakePositionMotorR = 5;
+        public static final int kIntakeMotor          = 7;
 
         // Elevator motor
-        public static final int kElevatorMotor = -1;
+        public static final int kElevatorMotor = 8;
 
         // Arm Motors
-        public static final int kForearmMotor = -1;
-        public static final int kWristMotor   = -1;
-        public static final int kClawMotor    = -1;
+        public static final int kArmMotor = 11;
+        public static final int kWristMotor   = 9;
+        public static final int kClawMotor    = 10;
     
         // Motor Power Constants
         public static final double DrivePower  = 2;
@@ -67,36 +67,29 @@ public final class Constants {
 
     // Digital Inputs
         // Intake Limits
-        public static final int kBottomLimitChannel = -1;
-        public static final int kTopLimitChannel    = -1;
+        public static final int kInkakeLeftLimitChannel = 2;
+        public static final int kIntakeRightLimitChannel = 4;
         
         // Elevator Limit
-        public static final int kElevatorLimitChannel = -1;
+        public static final int kElevatorLimitChannel = 0;
         
         // Arm Limits
-        public static final int kForearmLimitChannel = -1;
-        public static final int kWristLimitChannel = -1;
-        
-    //Encoder
-        // Elevator
-        public static final int kElevatorEncoderChan1 = -1;
-        public static final int kElevatorEncoderChan2 = -2;
-
-        // Arm
-        public static final int kForearmEncoderChan1 = -1;
-        public static final int kForearmEncoderChan2 = -2;
-        public static final int kWristEncoderChan1 = -1;
-        public static final int kWristEncoderChan2 = -2;
+        public static final int kArmLimitChannel = 1;
+        public static final int kWristLimitChannel = 3;
 
 
     // Encoder Limit Values
+        // Intake
+        public static final double kIntakePositionDownLimit = 10;
         // Arm Limits
-        public static final int kForearmEncoderLimit = 1000;
+        public static final int kArmEncoderLimit = 1000;
         public static final int kWristEncoderLimit = 1000;
         public static final double kElevatorUsableHeightLimit = 1000;
+        
 
     // Reset Speeds
         public static final double kResetSpeedMax =  0.2;
         public static final double kResetSpeedMin = -0.2;
+        
         
 }

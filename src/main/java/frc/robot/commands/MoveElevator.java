@@ -25,8 +25,7 @@ public class MoveElevator extends Command {
             elevator.moveElevator(control.getAsDouble());
         }
         else{
-            elevator.moveElevator(0);
-            System.out.printf("You need to lower the inake to move the elevator.");
+          elevator.moveElevator(0);
         }
     }
 

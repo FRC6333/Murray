@@ -39,10 +39,10 @@ public class Elevator extends SubsystemBase{
     }
 
     public void moveElevator(double speed){
-        if (speed > 0 && ElevatorEncoder.getPosition() >= EncoderTopLimit){
+        if (speed < 0 && ElevatorEncoder.getPosition() >= EncoderTopLimit){
             ElevatorMotor.set(0f);
         }
-        else if(speed < 0 && BottomLimit.get()){
+        else if(speed > 0 && BottomLimit.get()){
             ElevatorMotor.set(0f);
             ElevatorEncoder.setPosition(0);
         }

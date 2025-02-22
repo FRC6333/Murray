@@ -1,17 +1,14 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake;
 
 public class StopIntake extends Command {
     private Intake intake;
-    private XboxController driveController;
     private boolean done = false;
 
-    public StopIntake(Intake i, XboxController d){
+    public StopIntake(Intake i){
         intake = i;
-        driveController = d;
 
         addRequirements(intake);
     }
@@ -19,7 +16,7 @@ public class StopIntake extends Command {
     @Override
     public void execute(){
         // Stop the intake if no intake controls are given
-        if (!driveController.getAButton() && !driveController.getBButton()) intake.PullPush(0);
+        intake.PullPush(0);
         done = true;
     }
 

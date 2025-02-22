@@ -1,7 +1,12 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 // import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
@@ -12,18 +17,25 @@ import frc.robot.Constants;
 
 public class MechDrive extends SubsystemBase {
     //Define parts of the DriveSubystem
-  private WPI_TalonSRX  RightFrontDriveMotor = new WPI_TalonSRX(Constants.kRightFrontMotor);
-  private WPI_TalonSRX  RightRearDriveMotor  = new WPI_TalonSRX(Constants.kRightRearMotor);
-  private WPI_TalonSRX  LeftFrontDriveMotor  = new WPI_TalonSRX(Constants.kLeftFrontMotor);
-  private WPI_TalonSRX  LeftRearDriveMotor   = new WPI_TalonSRX(Constants.kLeftRearMotor);
+  private SparkMax  RightFrontDriveMotor = new SparkMax(Constants.kRightFrontMotor, MotorType.kBrushless);
+  private SparkMax  RightRearDriveMotor  = new SparkMax(Constants.kRightRearMotor, MotorType.kBrushless);
+  private SparkMax  LeftFrontDriveMotor  = new SparkMax(Constants.kLeftFrontMotor, MotorType.kBrushless);
+  private SparkMax  LeftRearDriveMotor   = new SparkMax(Constants.kLeftRearMotor, MotorType.kBrushless);
 
   private MecanumDrive mechDrive = new MecanumDrive(LeftFrontDriveMotor, LeftRearDriveMotor, RightFrontDriveMotor, RightRearDriveMotor);
 
   public MechDrive() {
-    RightFrontDriveMotor.setNeutralMode(NeutralMode.Brake);
-    RightRearDriveMotor.setNeutralMode(NeutralMode.Brake);
-    LeftFrontDriveMotor.setNeutralMode(NeutralMode.Brake);
-    LeftRearDriveMotor.setNeutralMode(NeutralMode.Brake);
+    SparkMaxConfig driveConfig = new SparkMaxConfig();
+    driveConfig.idleMode(IdleMode.kBrake);
+
+    SparkMaxConfig driveConfigInverted = new SparkMaxConfig();
+    driveConfigInverted.idleMode(IdleMode.kBrake);
+    driveConfigInverted.inverted(true);
+        
+    RightFrontDriveMotor.configure(driveConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    RightRearDriveMotor.configure(driveConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    LeftFrontDriveMotor.configure(driveConfigInverted, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    LeftRearDriveMotor.configure(driveConfigInverted, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   public void translate(double forward, double side){

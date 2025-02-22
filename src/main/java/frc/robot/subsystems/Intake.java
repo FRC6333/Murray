@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
@@ -17,43 +18,63 @@ public class Intake extends SubsystemBase {
     private SparkMax PostitionMotorR = new SparkMax(Constants.kIntakePositionMotorR, MotorType.kBrushless);
     private SparkMax IntakeMotor = new SparkMax(Constants.kIntakeMotor, MotorType.kBrushless);
 
-    private DigitalInput BottomLimit = new DigitalInput(Constants.kBottomLimitChannel);
-    private DigitalInput TopLimit = new DigitalInput(Constants.kTopLimitChannel);
+    private DigitalInput TopLeftLimit = new DigitalInput(Constants.kInkakeLeftLimitChannel);
+    private DigitalInput TopRightLimit = new DigitalInput(Constants.kIntakeRightLimitChannel);
+
+    private RelativeEncoder LeftEncoder = PostitionMotorL.getEncoder();
+    private RelativeEncoder RightEncoder = PostitionMotorR.getEncoder();
 
 
     public Intake(){
-        SparkMaxConfig intakeConfig = new SparkMaxConfig();
-        SparkMaxConfig intakeConfigInverted = new SparkMaxConfig();
-        intakeConfig.idleMode(IdleMode.kBrake);
-        intakeConfigInverted.idleMode(IdleMode.kBrake);
-        intakeConfigInverted.inverted(true);
+        SparkMaxConfig intakePosConfig = new SparkMaxConfig();
+        SparkMaxConfig intakePullConfig = new SparkMaxConfig();
+        SparkMaxConfig intakePosConfigInverted = new SparkMaxConfig();
+
+        intakePosConfig.idleMode(IdleMode.kCoast);
+        intakePullConfig.idleMode(IdleMode.kBrake);
+        intakePosConfigInverted.idleMode(IdleMode.kCoast);
+        intakePosConfigInverted.inverted(true);
         
-        PostitionMotorL.configure(intakeConfigInverted, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        PostitionMotorR.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        IntakeMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        PostitionMotorL.configure(intakePosConfigInverted, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        PostitionMotorR.configure(intakePosConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        IntakeMotor.configure(intakePullConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    }
+
+    public boolean GetTopLeftLimit(){
+        return TopLeftLimit.get();
+    }
+
+    public boolean GetTopRightLimit(){
+        return TopRightLimit.get();
+    }
+
+    public double GetLeftEncoder(){
+        return LeftEncoder.getPosition();
+    }
+
+    public double GetRightEncoder(){
+        return RightEncoder.getPosition();
     }
 
     public boolean GetBottomLimit(){
-        return BottomLimit.get();
-    }
-
-    public boolean GetTopLimit(){
-        return TopLimit.get();
+        return (GetLeftEncoder() > Constants.kIntakePositionDownLimit) && (GetLeftEncoder() > Constants.kIntakePositionDownLimit);
     }
 
     public void PositionUp(double speed){
-        if (!GetTopLimit()) {
+        while (!GetTopLeftLimit() && !GetTopRightLimit()) {
             PostitionMotorL.set(Math.abs(speed));  // Assure the intake is only moving UP.
             PostitionMotorR.set(Math.abs(speed));
         }
-        else StopPosition();
+        LeftEncoder.setPosition(0);
+        RightEncoder.setPosition(0);
+        StopPosition();
     }
     public void PositionDown(double speed){
-        if (!GetBottomLimit()) {
+        while (!GetBottomLimit()) {
             PostitionMotorL.set(Math.abs(speed)*-1);  // Assure the intake is only moving DOWN.
             PostitionMotorR.set(Math.abs(speed)*-1);
         }
-        else StopPosition();
+        StopPosition();
     }
 
     public void StopPosition(){
