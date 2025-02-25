@@ -80,7 +80,7 @@ public final class Constants {
 
     // Encoder Limit Values
         // Intake
-        public static final double kIntakePositionDownLimit = 10;
+        public static final double kIntakePositionDownLimit = -5; // Correct ans is -7.4
         // Arm Limits
         public static final int kArmEncoderLimit = 1000;
         public static final int kWristEncoderLimit = 1000;

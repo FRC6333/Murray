@@ -38,14 +38,16 @@ public class Intake extends SubsystemBase {
         PostitionMotorL.configure(intakePosConfigInverted, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         PostitionMotorR.configure(intakePosConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         IntakeMotor.configure(intakePullConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        LeftEncoder.setPosition(0.0);
+        RightEncoder.setPosition(0.0);
     }
 
     public boolean GetTopLeftLimit(){
-        return TopLeftLimit.get();
+        return !TopLeftLimit.get();  // True means not being tripped
     }
 
     public boolean GetTopRightLimit(){
-        return TopRightLimit.get();
+        return !TopRightLimit.get(); // True means not being tripped
     }
 
     public double GetLeftEncoder(){
@@ -57,14 +59,22 @@ public class Intake extends SubsystemBase {
     }
 
     public boolean GetBottomLimit(){
-        return (GetLeftEncoder() > Constants.kIntakePositionDownLimit) && (GetLeftEncoder() > Constants.kIntakePositionDownLimit);
+        return (GetLeftEncoder() < Constants.kIntakePositionDownLimit) && (GetLeftEncoder() < Constants.kIntakePositionDownLimit);
     }
 
     public void PositionUp(double speed){
+        System.out.printf("\n\n!!!STARTING!!!\n%.3f    %.3f: %b %b\n\n\n", GetLeftEncoder(), GetRightEncoder(), GetTopLeftLimit(), GetTopRightLimit());
         while (!GetTopLeftLimit() && !GetTopRightLimit()) {
             PostitionMotorL.set(Math.abs(speed));  // Assure the intake is only moving UP.
             PostitionMotorR.set(Math.abs(speed));
         }
+        System.out.printf("\n\n!!!Stopping!!!\n%.3f    %.3f: %b %b\n\n\n", GetLeftEncoder(), GetRightEncoder(), GetTopLeftLimit(), GetTopRightLimit());
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            System.out.println("Interuppted?!?");
+        }
+
         LeftEncoder.setPosition(0);
         RightEncoder.setPosition(0);
         StopPosition();

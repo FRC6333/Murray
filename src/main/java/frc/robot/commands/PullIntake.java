@@ -17,13 +17,8 @@ public class PullIntake extends Command {
 
     @Override
     public void execute(){
-        if (intake.GetBottomLimit()){
-            double speed = -1*Constants.kGentley;
-            intake.PullPush(speed);
-        }
-        else{
-            DriverStation.reportWarning("Cannot use intake unless it's down.\nLower the intake first.", false);
-        }
+        double speed = -1*0.7;
+        intake.PullPush(speed);
         done = true;
     }
 

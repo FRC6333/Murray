@@ -17,7 +17,7 @@ public class RaiseIntake extends Command {
 
     @Override
     public void execute(){
-        intake.PositionUp(Constants.kGentley);
+        intake.PositionUp(Constants.kGentley*2);
         done = true;
     }
 

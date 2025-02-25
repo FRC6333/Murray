@@ -17,13 +17,8 @@ public class PushIntake extends Command {
 
     @Override
     public void execute(){
-        if (intake.GetBottomLimit()){
-            double speed = Constants.kGentley;
-            intake.PullPush(speed);
-        }
-        else{
-            CommandScheduler.getInstance().schedule(new LowerIntake(intake));
-        }
+        double speed = 0.7;
+        intake.PullPush(speed);
         done = true;
     }
 

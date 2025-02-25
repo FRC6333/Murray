@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DebugAprilTag;
-import frc.robot.commands.DebugLimitSwitches;
+import frc.robot.commands.DebugHardwareValues;
 import frc.robot.commands.LowerIntake;
 import frc.robot.commands.MoveElevator;
 import frc.robot.commands.PullIntake;
@@ -22,6 +22,7 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 //import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.MechDrive;
+import frc.robot.subsystems.Wrist;
 
 public class RobotContainer {
 
@@ -31,9 +32,10 @@ public class RobotContainer {
 
     // Subsys
     private final MechDrive m_MechDrive = new MechDrive();
-    //private final Intake m_Intake = new Intake();
+    private final Intake m_Intake = new Intake();
     private final Elevator m_Elevator = new Elevator();
     //private final Arm m_Arm = new Arm();
+    private final Wrist m_wrist = new Wrist();
     private final AprilDetect m_Detector = new AprilDetect();
 
     private final DoubleSupplier[] carLayout = {
@@ -59,12 +61,12 @@ public class RobotContainer {
     
     private SendableChooser<DoubleSupplier[]> m_layoutChooser = new SendableChooser<DoubleSupplier[]>();
 
-    //private final StandardDrive m_StandardDrive;
+    private final StandardDrive m_StandardDrive;
 
     private final MoveElevator m_MoveElevator;
 
     private final DebugAprilTag m_DebugAprilTag = new DebugAprilTag(m_Detector);
-    //private final DebugLimitSwitches m_DebugLimitSwitches = new DebugLimitSwitches();
+    private final DebugHardwareValues m_DebugHardwareValues = new DebugHardwareValues(m_Intake, m_wrist);
     
     // Container for robot, defines hardware, subsystems, and commands robot can use.
     public RobotContainer(){
@@ -74,29 +76,28 @@ public class RobotContainer {
         m_layoutChooser.addOption("Tank Control", tankLayout);
         SmartDashboard.putData("Layout Chooser",m_layoutChooser);
 
-        //m_StandardDrive = new StandardDrive(m_MechDrive, m_layoutChooser.getSelected());
-        //m_MechDrive.setDefaultCommand(m_StandardDrive);
-        //m_layoutChooser.onChange((DoubleSupplier[] newLayout) -> m_StandardDrive.setLayout(newLayout));
+        m_StandardDrive = new StandardDrive(m_MechDrive, m_layoutChooser.getSelected());
+        m_MechDrive.setDefaultCommand(m_StandardDrive);
+        m_layoutChooser.onChange((DoubleSupplier[] newLayout) -> m_StandardDrive.setLayout(newLayout));
 
-        m_MoveElevator = new MoveElevator(m_Elevator, null, () -> DriveController.getLeftY());  // TODO restore intake refrence!
+        m_MoveElevator = new MoveElevator(m_Elevator, m_Intake, () -> DriveController.getLeftY());  // TODO restore intake refrence!
         m_Elevator.setDefaultCommand(m_MoveElevator);
         
         m_DebugAprilTag.repeatedly().schedule();
-        //m_DebugLimitSwitches.repeatedly().schedule();
-        //System.out.println(m_DebugAprilTag.isScheduled());
+        System.out.printf("Scheduled AprilTag: %b\n", m_DebugAprilTag.isScheduled());
         
-        //StopIntake m_intakeStop = new StopIntake(m_Intake);
+        StopIntake m_intakeStop = new StopIntake(m_Intake);
 
-        //Trigger triggerPullIntake = new JoystickButton(DriveController, XboxController.Button.kA.value);  // Have intake pull on [A] and stop on release.
-        //triggerPullIntake.onTrue(m_DebugLimitSwitches);
-        //triggerPullIntake.onFalse(m_intakeStop);
-        //Trigger triggerPushIntake = new JoystickButton(DriveController, XboxController.Button.kB.value); // Have intake push on [B] and stop on release.
-        //triggerPushIntake.onTrue(new PushIntake(m_Intake));
-        //triggerPushIntake.onFalse(m_intakeStop);
-        //Trigger triggerLowerIntake = new JoystickButton(DriveController,XboxController.Button.kX.value); // Have intake lower on [X].
-        //triggerLowerIntake.onTrue(new LowerIntake(m_Intake));
-        //Trigger triggerRaiseIntake = new JoystickButton(DriveController,XboxController.Button.kY.value); // Have intake raise on [Y].
-        //triggerRaiseIntake.onTrue(new RaiseIntake(m_Intake));
+        Trigger triggerPullIntake = new JoystickButton(DriveController, XboxController.Button.kA.value);  // Have intake pull on [A] and stop on release.
+        triggerPullIntake.onTrue(new PullIntake(m_Intake));
+        triggerPullIntake.onFalse(m_intakeStop);
+        Trigger triggerPushIntake = new JoystickButton(DriveController, XboxController.Button.kB.value); // Have intake push on [B] and stop on release.
+        triggerPushIntake.onTrue(new PushIntake(m_Intake));
+        triggerPushIntake.onFalse(m_intakeStop);
+        Trigger triggerLowerIntake = new JoystickButton(DriveController,XboxController.Button.kX.value); // Have intake lower on [X].
+        triggerLowerIntake.onTrue(new LowerIntake(m_Intake));
+        Trigger triggerRaiseIntake = new JoystickButton(DriveController,XboxController.Button.kY.value); // Have intake raise on [Y].
+        triggerRaiseIntake.onTrue(new RaiseIntake(m_Intake));
 
     }
 

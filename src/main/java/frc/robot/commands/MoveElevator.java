@@ -21,6 +21,7 @@ public class MoveElevator extends Command {
 
     @Override
     public void execute(){
+        (new LowerIntake(intake)).schedule();
         if(intake.GetBottomLimit()){
             elevator.moveElevator(control.getAsDouble());
         }
