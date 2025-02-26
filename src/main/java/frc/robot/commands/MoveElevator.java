@@ -21,13 +21,14 @@ public class MoveElevator extends Command {
 
     @Override
     public void execute(){
-        (new LowerIntake(intake)).schedule();
-        if(intake.GetBottomLimit()){
-            elevator.moveElevator(control.getAsDouble());
-        }
-        else{
-          elevator.moveElevator(0);
-        }
+        //if(intake.GetBottomLimit()){
+            //elevator.moveElevator(control.getAsDouble());
+            elevator.setPosition(-80.0);
+        //}
+        //else{
+          //elevator.moveElevator(0);
+          //(new LowerIntake(intake)).schedule();
+        //}
     }
 
     @Override

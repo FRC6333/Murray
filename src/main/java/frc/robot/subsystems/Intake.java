@@ -43,11 +43,11 @@ public class Intake extends SubsystemBase {
     }
 
     public boolean GetTopLeftLimit(){
-        return !TopLeftLimit.get();  // True means not being tripped
+        return TopLeftLimit.get();
     }
 
     public boolean GetTopRightLimit(){
-        return !TopRightLimit.get(); // True means not being tripped
+        return !TopRightLimit.get();
     }
 
     public double GetLeftEncoder(){

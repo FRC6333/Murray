@@ -9,6 +9,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -18,6 +19,7 @@ public class Arm extends SubsystemBase {
 
     private DigitalInput ArmLimit = new DigitalInput(Constants.kArmLimitChannel);
     private RelativeEncoder ArmEncoder = ArmMotor.getEncoder();
+    private PIDController ArmPID = new PIDController(Constants.BkP, Constants.BkI, Constants.BkD);
 
 
     public Arm(){
@@ -49,6 +51,14 @@ public class Arm extends SubsystemBase {
         else {
             ArmMotor.set(Constants.kStop);
         }
+    }
+
+    public void setPosition(double pos){
+        double tolerance = 0.2;
+        while(getArmEncoder() < (pos-tolerance) && getArmEncoder() > (pos+tolerance)){
+            ArmMotor.set(ArmPID.calculate(getArmEncoder(), pos));
+        }
+        ArmMotor.set(Constants.kStop);
     }
     
 

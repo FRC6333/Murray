@@ -48,7 +48,7 @@ public final class Constants {
         //Bottom PID Constants
         // PID coefficients
         public static final double BkP         =  0.2; 
-        public static final double BkI         =  0.0;
+        public static final double BkI         =  0.002;
         public static final double BkD         =  0.0; 
         public static final double BkIz        =  0; 
         public static final double BkFF        =  0; 
