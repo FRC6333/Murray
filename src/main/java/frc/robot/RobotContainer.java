@@ -10,6 +10,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DebugAprilTag;
 import frc.robot.commands.DebugHardwareValues;
+import frc.robot.commands.JogArmDown;
+import frc.robot.commands.JogArmUp;
+import frc.robot.commands.JogElevatorDown;
+import frc.robot.commands.JogElevatorUp;
 import frc.robot.commands.LowerIntake;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveElevator;
@@ -99,13 +103,11 @@ public class RobotContainer {
         triggerDebug.onTrue(m_DebugHardwareValues);
 
         Trigger triggerPullIntake = new JoystickButton(DriveController, XboxController.Button.kA.value);  // Have intake pull on [A] and stop on release.
-        triggerPullIntake.onTrue(new WristHorizontal(m_Wrist, m_Elevator, m_Intake));
-        //triggerPullIntake.onTrue(new PullIntake(m_Intake));
+        triggerPullIntake.onTrue(new PullIntake(m_Intake));
         triggerPullIntake.onFalse(m_intakeStop);
         
         Trigger triggerPushIntake = new JoystickButton(DriveController, XboxController.Button.kB.value); // Have intake push on [B] and stop on release.
-        triggerPushIntake.onTrue(new WristVertical(m_Wrist, m_Elevator, m_Intake));
-        //triggerPushIntake.onTrue(new PushIntake(m_Intake));
+        triggerPushIntake.onTrue(new PushIntake(m_Intake));
         triggerPushIntake.onFalse(m_intakeStop);
         
         Trigger triggerLowerIntake = new JoystickButton(DriveController,XboxController.Button.kX.value); // Have intake lower on [X].
@@ -113,6 +115,22 @@ public class RobotContainer {
         
         Trigger triggerRaiseIntake = new JoystickButton(DriveController,XboxController.Button.kY.value); // Have intake raise on [Y].
         triggerRaiseIntake.onTrue(new RaiseIntake(m_Intake));
+
+        Trigger triggerElevatorUp =  new JoystickButton(ArmController, XboxController.Button.kB.value);
+        Trigger triggerElevatorDown =  new JoystickButton(ArmController, XboxController.Button.kA.value);
+        Trigger triggerArmUp =  new JoystickButton(ArmController, XboxController.Button.kY.value);
+        Trigger triggerArmDown =  new JoystickButton(ArmController, XboxController.Button.kX.value);
+        triggerElevatorUp.onTrue(new JogElevatorUp(m_MoveElevator));
+        triggerElevatorDown.onTrue(new JogElevatorDown(m_MoveElevator));
+        triggerArmUp.onTrue(new JogArmUp(m_MoveArm));
+        triggerArmDown.onTrue(new JogArmDown(m_MoveArm));
+
+        Trigger triggerWristHorizontal = new JoystickButton(ArmController, XboxController.Button.kLeftBumper.value);
+        Trigger triggerWristVertical = new JoystickButton(ArmController, XboxController.Button.kRightBumper.value);
+        triggerWristHorizontal.onTrue(new WristHorizontal(m_Wrist, m_Elevator, m_Intake));
+        triggerWristVertical.onTrue(new WristVertical(m_Wrist, m_Elevator, m_Intake));
+
+        
 
     }
 
