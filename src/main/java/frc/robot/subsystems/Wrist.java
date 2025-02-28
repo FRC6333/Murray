@@ -33,10 +33,10 @@ public class Wrist extends SubsystemBase {
     }
 
     public boolean getWristLimit(){
-        return WristLimit.get();
+        return !WristLimit.get();
     }
 
-    public void wristVertical(double speed){
+    public void wristHorizontal(double speed){
         while (!getWristLimit()){
             WristMotor.set(Math.abs(speed));
         }
@@ -44,8 +44,8 @@ public class Wrist extends SubsystemBase {
         WristEncoder.setPosition(0.0);
     }
 
-    public void wristHorizonal(double speed){
-        while (getWristEncoder() < Constants.kWristEncoderLimit){
+    public void wristVertical(double speed){
+        while (getWristEncoder() > Constants.kWristEncoderLimit){
             WristMotor.set(Math.abs(speed)*-1);
         }
         WristMotor.set(Constants.kStop);

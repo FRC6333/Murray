@@ -43,7 +43,7 @@ public class Intake extends SubsystemBase {
     }
 
     public boolean GetTopLeftLimit(){
-        return TopLeftLimit.get();
+        return !TopLeftLimit.get();
     }
 
     public boolean GetTopRightLimit(){
@@ -63,16 +63,16 @@ public class Intake extends SubsystemBase {
     }
 
     public void PositionUp(double speed){
-        System.out.printf("\n\n!!!STARTING!!!\n%.3f    %.3f: %b %b\n\n\n", GetLeftEncoder(), GetRightEncoder(), GetTopLeftLimit(), GetTopRightLimit());
+        //System.out.printf("\n\n!!!STARTING!!!\n%.3f    %.3f: %b %b\n\n\n", GetLeftEncoder(), GetRightEncoder(), GetTopLeftLimit(), GetTopRightLimit());
         while (!GetTopLeftLimit() && !GetTopRightLimit()) {
             PostitionMotorL.set(Math.abs(speed));  // Assure the intake is only moving UP.
             PostitionMotorR.set(Math.abs(speed));
         }
-        System.out.printf("\n\n!!!Stopping!!!\n%.3f    %.3f: %b %b\n\n\n", GetLeftEncoder(), GetRightEncoder(), GetTopLeftLimit(), GetTopRightLimit());
+        //System.out.printf("\n\n!!!Stopping!!!\n%.3f    %.3f: %b %b\n\n\n", GetLeftEncoder(), GetRightEncoder(), GetTopLeftLimit(), GetTopRightLimit());
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
-            System.out.println("Interuppted?!?");
+            //System.out.println("Interuppted?!?");
         }
 
         LeftEncoder.setPosition(0);

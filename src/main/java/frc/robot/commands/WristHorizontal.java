@@ -22,8 +22,11 @@ public class WristHorizontal extends Command {
 
     @Override
     public void execute(){
-        while (intake.GetBottomLimit() && elevator.getElevatorEncoder() > Constants.kElevatorUsableHeightLimit && wrist.getWristEncoder() < Constants.kWristEncoderLimit){
-            wrist.wristHorizonal(Constants.kGentley);
+        if (intake.GetBottomLimit() && elevator.getElevatorEncoder() < Constants.kElevatorSafeLow){
+            wrist.wristHorizontal(Constants.kGentley);
+        }
+        else if(!intake.GetBottomLimit() && elevator.getElevatorEncoder() < Constants.kElevatorSafeHigh){
+            wrist.wristHorizontal(Constants.kGentley);
         }
         done = true;
     }

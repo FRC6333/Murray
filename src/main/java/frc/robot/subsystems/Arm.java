@@ -19,7 +19,7 @@ public class Arm extends SubsystemBase {
 
     private DigitalInput ArmLimit = new DigitalInput(Constants.kArmLimitChannel);
     private RelativeEncoder ArmEncoder = ArmMotor.getEncoder();
-    private PIDController ArmPID = new PIDController(Constants.BkP, Constants.BkI, Constants.BkD);
+    private PIDController ArmPID = new PIDController(Constants.ArmkP, Constants.ArmkI, Constants.ArmkD);
 
 
     public Arm(){
@@ -30,15 +30,15 @@ public class Arm extends SubsystemBase {
     }
 
     public boolean getArmLimit(){
-        return ArmLimit.get();
+        return !ArmLimit.get();
     }
 
     public double getArmEncoder(){
         return ArmEncoder.getPosition();
     }
 
-    public void armMove(double direction){
-        if (direction > 0 && getArmEncoder() < Constants.kArmEncoderLimit){
+    public void MoveArm(double direction){
+        if (direction > 0 && getArmEncoder() < Constants.kArmSafeLimit){
             ArmMotor.set(direction);
         }
         else if (direction < 0 && !getArmLimit()){
@@ -54,11 +54,12 @@ public class Arm extends SubsystemBase {
     }
 
     public void setPosition(double pos){
-        double tolerance = 0.2;
-        while(getArmEncoder() < (pos-tolerance) && getArmEncoder() > (pos+tolerance)){
-            ArmMotor.set(ArmPID.calculate(getArmEncoder(), pos));
-        }
-        ArmMotor.set(Constants.kStop);
+        if(getArmLimit()) ArmEncoder.setPosition(0);
+        ArmPID.setSetpoint(pos);
+        double speed = ArmPID.calculate(getArmEncoder());
+        if (Math.abs(speed) > 0.6) speed = 0.6 * Math.signum(speed);
+       // System.out.printf("%f %f %f\n", getArmEncoder(), speed, ArmPID.getError());
+        ArmMotor.set(speed);
     }
     
 

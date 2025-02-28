@@ -47,44 +47,38 @@ public final class Constants {
     // PID Constants
         //Bottom PID Constants
         // PID coefficients
-        public static final double BkP         =  0.2; 
-        public static final double BkI         =  0.002;
-        public static final double BkD         =  0.0; 
-        public static final double BkIz        =  0; 
-        public static final double BkFF        =  0; 
-        public static final double BkMaxOutput =  0.3; 
-        public static final double BkMinOutput = -0.3;
+        public static final double ElekP         =  0.2; 
+        public static final double ElekI         =  0.002;
+        public static final double ElekD         =  0.0; 
 
         //Top PID Contants
         //PID coefficients
-        public static final double TkP         =  0.2; 
-        public static final double TkI         =  0.0;
-        public static final double TkD         =  0.0; 
-        public static final double TkIz        =  0; 
-        public static final double TkFF        =  0; 
-        public static final double TkMaxOutput =  0.3; 
-        public static final double TkMinOutput = -0.3;
+        public static final double ArmkP         =  0.06; 
+        public static final double ArmkI         =  0.0006;
+        public static final double ArmkD         =  0.0; 
 
     // Digital Inputs
         // Intake Limits
-        public static final int kInkakeLeftLimitChannel = 2;
+        public static final int kInkakeLeftLimitChannel = 1;
         public static final int kIntakeRightLimitChannel = 4;
         
         // Elevator Limit
-        public static final int kElevatorLimitChannel = 0;
+        public static final int kElevatorLimitChannel = 3; //0 -> 3
         
         // Arm Limits
-        public static final int kArmLimitChannel = 1;
-        public static final int kWristLimitChannel = 3;
+        public static final int kArmLimitChannel = 2; //1 -> 2
+        public static final int kWristLimitChannel = 0;
 
 
     // Encoder Limit Values
         // Intake
         public static final double kIntakePositionDownLimit = -5; // Correct ans is -7.4
         // Arm Limits
-        public static final int kArmEncoderLimit = 1000;
-        public static final int kWristEncoderLimit = 1000;
-        public static final double kElevatorUsableHeightLimit = 1000;
+        public static final double kArmSafeLimit = -42.593;
+        public static final double kWristEncoderLimit = -20.5;
+        // Elevator Limit
+        public static final double kElevatorSafeHigh = -70.625;
+        public static final double kElevatorSafeLow = -30.836;
         
 
     // Reset Speeds

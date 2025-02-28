@@ -22,7 +22,11 @@ public class WristVertical extends Command {
 
     @Override
     public void execute(){
-        while (intake.GetBottomLimit() && elevator.getElevatorEncoder() > Constants.kElevatorUsableHeightLimit && !wrist.getWristLimit()){
+        System.out.printf("%b && %b; %f < %f\n", intake.GetBottomLimit(), elevator.getElevatorEncoder() < Constants.kElevatorSafeLow, elevator.getElevatorEncoder(), Constants.kElevatorSafeLow);
+        if (intake.GetBottomLimit() && elevator.getElevatorEncoder() < (Constants.kElevatorSafeLow+1)){
+            wrist.wristVertical(Constants.kGentley);
+        }
+        else if(!intake.GetBottomLimit() && elevator.getElevatorEncoder() < (Constants.kElevatorSafeHigh+1)){
             wrist.wristVertical(Constants.kGentley);
         }
         done = true;

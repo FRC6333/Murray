@@ -20,7 +20,7 @@ public class Elevator extends SubsystemBase{
     
     private RelativeEncoder ElevatorEncoder = ElevatorMotor.getEncoder();
 
-    private PIDController ElevatorPID = new PIDController(Constants.BkP, Constants.BkI, Constants.BkD);
+    private PIDController ElevatorPID = new PIDController(Constants.ElekP, Constants.ElekI, Constants.ElekD);
 
     private static int EncoderTopLimit = 1000;
 
@@ -28,7 +28,7 @@ public class Elevator extends SubsystemBase{
 
     public Elevator(){
         SparkMaxConfig elevatorConfig = new SparkMaxConfig();
-        elevatorConfig.idleMode(IdleMode.kBrake);
+        elevatorConfig.idleMode(IdleMode.kCoast);
         ElevatorMotor.configure(elevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         ElevatorEncoder.setPosition(0);
@@ -58,15 +58,9 @@ public class Elevator extends SubsystemBase{
     }
 
     public void setPosition(double pos){
-        double tolerance = 0.0000001;
-        System.out.printf("Start PID\n");
-        while(getElevatorEncoder() < (pos-tolerance) || getElevatorEncoder() > (pos+tolerance)){
-            ElevatorPID.setSetpoint(pos);
-            double speed = ElevatorPID.calculate(getElevatorEncoder());
-            System.out.printf("%f  %f  %f\n", getElevatorEncoder(), speed, ElevatorPID.getError());
-            ElevatorMotor.set(speed);
-        }
-        ElevatorMotor.set(Constants.kStop);
-        System.out.printf("End PID\n");
+        if(getElevatorLimit()) ElevatorEncoder.setPosition(0);
+        ElevatorPID.setSetpoint(pos);
+        double speed = ElevatorPID.calculate(getElevatorEncoder());
+        ElevatorMotor.set(speed);
     }
 }
