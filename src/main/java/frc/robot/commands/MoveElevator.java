@@ -16,6 +16,7 @@ public class MoveElevator extends Command {
     public MoveElevator(Elevator elevator, Intake intake, Arm arm, double control){
         this.elevator = elevator;
         this.intake = intake;
+        this.arm = arm;
         this.control = control;
 
         addRequirements(elevator);
