@@ -120,18 +120,15 @@ public class RobotContainer {
         Trigger triggerElevatorDown =  new JoystickButton(ArmController, XboxController.Button.kA.value);
         Trigger triggerArmUp =  new JoystickButton(ArmController, XboxController.Button.kY.value);
         Trigger triggerArmDown =  new JoystickButton(ArmController, XboxController.Button.kX.value);
-        triggerElevatorUp.onTrue(new JogElevatorUp(m_MoveElevator));
-        triggerElevatorDown.onTrue(new JogElevatorDown(m_MoveElevator));
-        triggerArmUp.onTrue(new JogArmUp(m_MoveArm));
-        triggerArmDown.onTrue(new JogArmDown(m_MoveArm));
+        triggerElevatorUp.whileTrue(new JogElevatorUp(m_MoveElevator).repeatedly());
+        triggerElevatorDown.whileTrue(new JogElevatorDown(m_MoveElevator).repeatedly());
+        triggerArmUp.whileTrue(new JogArmUp(m_MoveArm).repeatedly());
+        triggerArmDown.whileTrue(new JogArmDown(m_MoveArm).repeatedly());
 
         Trigger triggerWristHorizontal = new JoystickButton(ArmController, XboxController.Button.kLeftBumper.value);
         Trigger triggerWristVertical = new JoystickButton(ArmController, XboxController.Button.kRightBumper.value);
         triggerWristHorizontal.onTrue(new WristHorizontal(m_Wrist, m_Elevator, m_Intake));
         triggerWristVertical.onTrue(new WristVertical(m_Wrist, m_Elevator, m_Intake));
-
-        
-
     }
 
     public void initalized(){

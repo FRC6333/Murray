@@ -75,10 +75,12 @@ public final class Constants {
         public static final double kIntakePositionDownLimit = -5; // Correct ans is -7.4
         // Arm Limits
         public static final double kArmSafeLimit = -42.593;
+        public static final double kArmMaxLimit  = -92.593;
         public static final double kWristEncoderLimit = -20.5;
         // Elevator Limit
         public static final double kElevatorSafeHigh = -70.625;
         public static final double kElevatorSafeLow = -30.836;
+        public static final double kElevatorMaxLimit = -208.095;
         
 
     // Reset Speeds

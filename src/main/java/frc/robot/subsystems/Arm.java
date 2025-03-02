@@ -10,7 +10,10 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.networktables.TimestampedRaw;
+import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -54,11 +57,20 @@ public class Arm extends SubsystemBase {
     }
 
     public void setPosition(double pos){
-        if(getArmLimit()) ArmEncoder.setPosition(0);
-        ArmPID.setSetpoint(pos);
+        if(getArmLimit()){ 
+            ArmEncoder.setPosition(0);
+            if(pos > 0) ArmPID.setSetpoint(0);
+            else if (pos <= Constants.kArmMaxLimit) ArmPID.setSetpoint(Constants.kArmMaxLimit);
+            else ArmPID.setSetpoint(pos);
+        }
+        else{
+            if(pos > 5) ArmPID.setSetpoint(5);
+            else if (pos <= Constants.kArmMaxLimit) ArmPID.setSetpoint(Constants.kArmMaxLimit);
+            else ArmPID.setSetpoint(pos);
+        }
+        
         double speed = ArmPID.calculate(getArmEncoder());
-        if (Math.abs(speed) > 0.6) speed = 0.6 * Math.signum(speed);
-       // System.out.printf("%f %f %f\n", getArmEncoder(), speed, ArmPID.getError());
+        if (Math.abs(speed) > 0.4) speed = 0.4 * Math.signum(speed);
         ArmMotor.set(speed);
     }
     

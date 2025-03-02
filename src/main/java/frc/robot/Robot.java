@@ -18,7 +18,8 @@ public class Robot extends TimedRobot {
   public void robotInit(){
     m_RobotContainer = new RobotContainer();
     m_RobotContainer.initalized();
-    CameraServer.startAutomaticCapture();
+    CameraServer.startAutomaticCapture(); // For cam 0
+    CameraServer.startAutomaticCapture(); // For cam 1
   }
 
   @Override

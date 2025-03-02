@@ -58,8 +58,19 @@ public class Elevator extends SubsystemBase{
     }
 
     public void setPosition(double pos){
-        if(getElevatorLimit()) ElevatorEncoder.setPosition(0);
-        ElevatorPID.setSetpoint(pos);
+        
+        if(getElevatorLimit()){ 
+            ElevatorEncoder.setPosition(0);
+            if(pos > 0) ElevatorPID.setSetpoint(0);
+            else if (pos <= Constants.kArmMaxLimit) ElevatorPID.setSetpoint(Constants.kArmMaxLimit);
+            else ElevatorPID.setSetpoint(pos);
+        }
+        else{
+            if(pos > 5) ElevatorPID.setSetpoint(5);
+            else if (pos <= Constants.kArmMaxLimit) ElevatorPID.setSetpoint(Constants.kArmMaxLimit);
+            else ElevatorPID.setSetpoint(pos);
+        }
+
         double speed = ElevatorPID.calculate(getElevatorEncoder());
         ElevatorMotor.set(speed);
     }

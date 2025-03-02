@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class JogElevatorUp extends Command {
@@ -12,7 +13,8 @@ public class JogElevatorUp extends Command {
 
     @Override
     public void execute(){
-        elevatorControl.setControl(elevatorControl.getControl()-0.02);
+        System.out.printf("[%f]:Jog Eliv Up\n", Timer.getTimestamp());
+        elevatorControl.setControl(elevatorControl.getControl()-0.2);
         done = true;
     }
 

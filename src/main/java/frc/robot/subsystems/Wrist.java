@@ -40,6 +40,11 @@ public class Wrist extends SubsystemBase {
         while (!getWristLimit()){
             WristMotor.set(Math.abs(speed));
         }
+        try {
+            Thread.sleep(50);
+        } catch (InterruptedException e) {
+            //System.out.println("Interuppted?!?");
+        }
         WristMotor.set(Constants.kStop);
         WristEncoder.setPosition(0.0);
     }

@@ -12,7 +12,7 @@ public class JogArmDown extends Command {
 
     @Override
     public void execute(){
-        armControl.setControl(armControl.getControl()+0.02);
+        armControl.setControl(armControl.getControl()+0.2);
         done = true;
     }
 
