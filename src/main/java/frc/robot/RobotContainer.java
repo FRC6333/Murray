@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DebugAprilTag;
 import frc.robot.commands.DebugHardwareValues;
+import frc.robot.commands.IterateStateMachine;
 import frc.robot.commands.JogArmDown;
 import frc.robot.commands.JogArmUp;
 import frc.robot.commands.JogElevatorDown;
@@ -22,6 +23,7 @@ import frc.robot.commands.StandardDrive;
 import frc.robot.commands.StopIntake;
 import frc.robot.commands.PushIntake;
 import frc.robot.commands.RaiseIntake;
+import frc.robot.commands.SetGoalState;
 import frc.robot.commands.WristHorizontal;
 import frc.robot.commands.WristVertical;
 
@@ -30,7 +32,9 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.MechDrive;
+import frc.robot.subsystems.StateMachine;
 import frc.robot.subsystems.Wrist;
+import frc.robot.subsystems.StateMachine.RobotState;
 
 public class RobotContainer {
 
@@ -45,6 +49,7 @@ public class RobotContainer {
     private final Arm m_Arm = new Arm();
     private final Wrist m_Wrist = new Wrist();
     private final AprilDetect m_Detector = new AprilDetect();
+    private final StateMachine m_StateMachine;
 
     private final DoubleSupplier[] carLayout = {
         () -> (DriveController.getLeftTriggerAxis()*-1)+(DriveController.getRightTriggerAxis()),
@@ -93,6 +98,10 @@ public class RobotContainer {
         m_Elevator.setDefaultCommand(m_MoveElevator);
         m_MoveArm = new MoveArm(m_Arm, m_Elevator, m_Intake, Constants.kArmSafeLimit);
         m_Arm.setDefaultCommand(m_MoveArm);
+
+        m_StateMachine = new StateMachine(m_Intake, m_Elevator, m_Arm, m_Wrist, m_MoveElevator, m_MoveArm);
+        IterateStateMachine m_StateMachineIterator = new IterateStateMachine(m_StateMachine);
+        m_StateMachine.setDefaultCommand(m_StateMachineIterator);
         
         m_DebugAprilTag.repeatedly().schedule();
         System.out.printf("Scheduled AprilTag: %b\n", m_DebugAprilTag.isScheduled());
@@ -129,6 +138,10 @@ public class RobotContainer {
         Trigger triggerWristVertical = new JoystickButton(ArmController, XboxController.Button.kRightBumper.value);
         triggerWristHorizontal.onTrue(new WristHorizontal(m_Wrist, m_Elevator, m_Intake));
         triggerWristVertical.onTrue(new WristVertical(m_Wrist, m_Elevator, m_Intake));
+
+
+        //Trigger exampleStateSwitch = new JoystickButton(0, 0);
+        //exampleStateSwitch.onFalse(new SetGoalState(m_StateMachine, RobotState.SINT2));  // On false so the button has to be pressed AND RELEASED, not held.
     }
 
     public void initalized(){
