@@ -9,17 +9,17 @@ import frc.robot.subsystems.Elevator;
 
 public class DebugHardwareValues extends Command {
     private Wrist wrist;
-    private Arm arm;
-    private Elevator elevator;
-    private Intake intake;
+    //private Arm arm;
+    //private Elevator elevator;
+    //private Intake intake;
 
     private boolean done =  false;
     
     public DebugHardwareValues(Intake intake,Wrist wrist, Arm arm, Elevator elevator){
         this.wrist = wrist;
-        this.arm = arm;
-        this.elevator = elevator;
-        this.intake = intake;
+        //this.arm = arm;
+        //this.elevator = elevator;
+        //this.intake = intake;
     }
 
     @Override
