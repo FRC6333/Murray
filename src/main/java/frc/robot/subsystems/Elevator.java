@@ -52,22 +52,24 @@ public class Elevator extends SubsystemBase{
             ElevatorEncoder.setPosition(0);
         }
         else{
-            // TODO: Reduce speed NEAR top/bottom limits
             ElevatorMotor.set(speed);
         }
     }
 
+    public double getPIDPos(){
+        return ElevatorPID.getSetpoint();
+    }
     public void setPosition(double pos){
         
         if(getElevatorLimit()){ 
             ElevatorEncoder.setPosition(0);
             if(pos > 0) ElevatorPID.setSetpoint(0);
-            else if (pos <= Constants.kArmMaxLimit) ElevatorPID.setSetpoint(Constants.kArmMaxLimit);
+            else if (pos <= Constants.kElevatorMaxLimit) ElevatorPID.setSetpoint(Constants.kElevatorMaxLimit);
             else ElevatorPID.setSetpoint(pos);
         }
         else{
             if(pos > 5) ElevatorPID.setSetpoint(5);
-            else if (pos <= Constants.kArmMaxLimit) ElevatorPID.setSetpoint(Constants.kArmMaxLimit);
+            else if (pos <= Constants.kElevatorMaxLimit) ElevatorPID.setSetpoint(Constants.kElevatorMaxLimit);
             else ElevatorPID.setSetpoint(pos);
         }
 

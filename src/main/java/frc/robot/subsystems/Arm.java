@@ -53,6 +53,10 @@ public class Arm extends SubsystemBase {
         }
     }
 
+    public double getPIDPos(){
+        return ArmPID.getSetpoint();
+    }
+
     public void setPosition(double pos){
         if(getArmLimit()){ 
             ArmEncoder.setPosition(0);

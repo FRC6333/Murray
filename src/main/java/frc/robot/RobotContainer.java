@@ -96,15 +96,15 @@ public class RobotContainer {
 
         m_MoveElevator = new MoveElevator(m_Elevator, m_Intake, m_Arm, Constants.kElevatorSafeLow);
         m_Elevator.setDefaultCommand(m_MoveElevator);
-        m_MoveArm = new MoveArm(m_Arm, m_Elevator, m_Intake, Constants.kArmSafeLimit);
+        m_MoveArm = new MoveArm(m_Arm, m_Elevator, m_Intake, 0);
         m_Arm.setDefaultCommand(m_MoveArm);
 
         m_StateMachine = new StateMachine(m_Intake, m_Elevator, m_Arm, m_Wrist, m_MoveElevator, m_MoveArm);
         IterateStateMachine m_StateMachineIterator = new IterateStateMachine(m_StateMachine);
         m_StateMachine.setDefaultCommand(m_StateMachineIterator);
         
-        m_DebugAprilTag.repeatedly().schedule();
-        System.out.printf("Scheduled AprilTag: %b\n", m_DebugAprilTag.isScheduled());
+        //m_DebugAprilTag.repeatedly().schedule();
+        //System.out.printf("Scheduled AprilTag: %b\n", m_DebugAprilTag.isScheduled());
         
         StopIntake m_intakeStop = new StopIntake(m_Intake);
 
@@ -118,30 +118,29 @@ public class RobotContainer {
         Trigger triggerPushIntake = new JoystickButton(DriveController, XboxController.Button.kB.value); // Have intake push on [B] and stop on release.
         triggerPushIntake.onTrue(new PushIntake(m_Intake));
         triggerPushIntake.onFalse(m_intakeStop);
+
+        Trigger exampleStateSwitch = new JoystickButton(DriveController, XboxController.Button.kX.value);
+        exampleStateSwitch.onFalse(new SetGoalState(m_StateMachine, RobotState.SL3));  // On false so the button has to be pressed AND RELEASED, not held.
         
-        Trigger triggerLowerIntake = new JoystickButton(DriveController,XboxController.Button.kX.value); // Have intake lower on [X].
-        triggerLowerIntake.onTrue(new LowerIntake(m_Intake));
+        //Trigger triggerLowerIntake = new JoystickButton(DriveController,XboxController.Button.kX.value);
+        //triggerLowerIntake.onTrue(new LowerIntake(m_Intake));
         
-        Trigger triggerRaiseIntake = new JoystickButton(DriveController,XboxController.Button.kY.value); // Have intake raise on [Y].
-        triggerRaiseIntake.onTrue(new RaiseIntake(m_Intake));
+        //Trigger triggerRaiseIntake = new JoystickButton(DriveController,XboxController.Button.kY.value);
+        //triggerRaiseIntake.onTrue(new RaiseIntake(m_Intake));
 
-        Trigger triggerElevatorUp =  new JoystickButton(ArmController, XboxController.Button.kB.value);
-        Trigger triggerElevatorDown =  new JoystickButton(ArmController, XboxController.Button.kA.value);
-        Trigger triggerArmUp =  new JoystickButton(ArmController, XboxController.Button.kY.value);
-        Trigger triggerArmDown =  new JoystickButton(ArmController, XboxController.Button.kX.value);
-        triggerElevatorUp.whileTrue(new JogElevatorUp(m_MoveElevator).repeatedly());
-        triggerElevatorDown.whileTrue(new JogElevatorDown(m_MoveElevator).repeatedly());
-        triggerArmUp.whileTrue(new JogArmUp(m_MoveArm).repeatedly());
-        triggerArmDown.whileTrue(new JogArmDown(m_MoveArm).repeatedly());
+        //~Trigger triggerElevatorUp =  new JoystickButton(ArmController, XboxController.Button.kB.value);
+        //Trigger triggerElevatorDown =  new JoystickButton(ArmController, XboxController.Button.kA.value);
+        //Trigger triggerArmUp =  new JoystickButton(ArmController, XboxController.Button.kY.value);
+        //Trigger triggerArmDown =  new JoystickButton(ArmController, XboxController.Button.kX.value);
+        //triggerElevatorUp.whileTrue(new JogElevatorUp(m_MoveElevator).repeatedly());
+        //triggerElevatorDown.whileTrue(new JogElevatorDown(m_MoveElevator).repeatedly());
+        //triggerArmUp.whileTrue(new JogArmUp(m_MoveArm).repeatedly());
+        //triggerArmDown.whileTrue(new JogArmDown(m_MoveArm).repeatedly());
 
-        Trigger triggerWristHorizontal = new JoystickButton(ArmController, XboxController.Button.kLeftBumper.value);
-        Trigger triggerWristVertical = new JoystickButton(ArmController, XboxController.Button.kRightBumper.value);
-        triggerWristHorizontal.onTrue(new WristHorizontal(m_Wrist, m_Elevator, m_Intake));
-        triggerWristVertical.onTrue(new WristVertical(m_Wrist, m_Elevator, m_Intake));
-
-
-        //Trigger exampleStateSwitch = new JoystickButton(0, 0);
-        //exampleStateSwitch.onFalse(new SetGoalState(m_StateMachine, RobotState.SINT2));  // On false so the button has to be pressed AND RELEASED, not held.
+        //Trigger triggerWristHorizontal = new JoystickButton(ArmController, XboxController.Button.kLeftBumper.value);
+        //Trigger triggerWristVertical = new JoystickButton(ArmController, XboxController.Button.kRightBumper.value);
+        //triggerWristHorizontal.onTrue(new WristHorizontal(m_Wrist, m_Elevator, m_Intake));
+        //triggerWristVertical.onTrue(new WristVertical(m_Wrist, m_Elevator, m_Intake));
     }
 
     public void initalized(){

@@ -36,29 +36,29 @@ public class StateMachine extends SubsystemBase {
     }
 
     public enum ActuatorPosition {
-        LI(7.958),    //lift floor intake handoff ready position
-        LS(30.836),   //lift safe lowest limit with intake down
-        LSU(70.625),  //lift safe lowest limit with intake up
-        LHO(71.978),  //lift human handoff 
+        LI (-7.958),    //lift floor intake handoff ready position
+        LS (-30.836),   //lift safe lowest limit with intake down
+        LSU(-70.625),  //lift safe lowest limit with intake up
+        LHO(-71.978),  //lift human handoff 
         LC1(0.000),   //lift L1 coral scoring
-        LC2(20.730),  //lift L2 coral scoring
-        LC3(90.042),  //lift L3 coral scoring
-        LC4(205.031), //lift L4 coral scoring
-        LA2(53.317),  //lift L2 algae removal
-        LA3(116.462), //lift L3 algae removal
-        LB(192.219),  //lift barge position
-        LH(77.986),   //lift ready to hang position
-        LT(208.095),  //lift maximum safe limit
-        AS(42.593),   //arm up clear the intake
-        AH(50.000),   //arm human handoff
-        AC1(66.824),  //arm L1 coral scoring
-        AC2(71.722),  //arm L2 coral scoring
-        AC3(71.722),  //arm L3 coral scoring
-        AC4(64.463),  //arm L4 coral scoring
-        AA2(54.120),  //arm L2 algae removal
-        AA3(54.120),  //arm L3 algae removal
-        AB(152.259),  //arm barge position
-        AT(92.593);   //arm maximum safe limit
+        LC2(-20.730),  //lift L2 coral scoring
+        LC3(-90.042),  //lift L3 coral scoring
+        LC4(-205.031), //lift L4 coral scoring
+        LA2(-53.317),  //lift L2 algae removal
+        LA3(-116.462), //lift L3 algae removal
+        LB (-192.219),  //lift barge position
+        LH (-77.986),   //lift ready to hang position
+        LT (-208.095),  //lift maximum safe limit
+        AS (-42.593),   //arm up clear the intake
+        AH (-50.000),   //arm human handoff
+        AC1(-66.824),  //arm L1 coral scoring
+        AC2(-71.722),  //arm L2 coral scoring
+        AC3(-71.722),  //arm L3 coral scoring
+        AC4(-64.463),  //arm L4 coral scoring
+        AA2(-54.120),  //arm L2 algae removal
+        AA3(-54.120),  //arm L3 algae removal
+        AB (-152.259),  //arm barge position
+        AT (-92.593);   //arm maximum safe limit
 
         private double position;
         
@@ -99,6 +99,7 @@ public class StateMachine extends SubsystemBase {
     }
 
     private void getPlan(){
+        System.out.printf("\n\nGetting Plan [%s -> %s]\n\n", current.name(), goal.name());
         plan = null;
         step = 0;
         if (current == goal) return;
@@ -258,6 +259,7 @@ public class StateMachine extends SubsystemBase {
             transitioning = false;
             return;
         }
+        System.out.printf("\n\nExecuting step %d [%s]\n",step, plan[step].name());
         
         // Prepare to transition.
         transitioning = true;
@@ -380,6 +382,7 @@ public class StateMachine extends SubsystemBase {
             elivatorPos = ActuatorPosition.LH.getPostion();
         }
 
+        System.out.printf("Step sets eliv: %f and arm: %f\n\n", elivatorPos, armPos);
         // Set up commands to transition.
         for (Command command : oneShotCommands) {
             command.schedule();
@@ -395,13 +398,16 @@ public class StateMachine extends SubsystemBase {
         
         for (Command command : oneShotCommands) {
             if(!command.isFinished()) status = false;
+            System.out.printf("%s: %b | status: %b\n", command.getClass().getSimpleName(), command.isFinished(), status);
         }
 
         if(elevator.getElevatorEncoder() < (mElevator.getControl()-buffer) || elevator.getElevatorEncoder() > (mElevator.getControl()+buffer)) status = false;
-        
+        System.out.printf("elevator: %f-1 < %f < %f+1 | status: %b\n", mElevator.getControl(), elevator.getElevatorEncoder(), mElevator.getControl(), status);
         if(arm.getArmEncoder() < (mArm.getControl()-buffer) || arm.getArmEncoder() > (mArm.getControl()+buffer)) status = false;
+        System.out.printf("arm: %f-1 < %f < %f+1 | status: %b\n", mArm.getControl(), arm.getArmEncoder(), mArm.getControl(), status);
 
         if(status){
+            System.out.printf("\n\nTransition complete\n\n");
             current = plan[step];
             transitioning = false;
         }

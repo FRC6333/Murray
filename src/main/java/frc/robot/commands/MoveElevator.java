@@ -39,10 +39,10 @@ public class MoveElevator extends Command {
 
     @Override
     public void execute(){
-        if(intake.GetBottomLimit() && (arm.getArmLimit()|| arm.getArmEncoder() < (Constants.kArmSafeLimit+1))){
+        if(intake.GetBottomLimit() && (arm.getArmLimit()|| arm.getArmEncoder() < (Constants.kArmSafeLimit-1))){
             elevator.setPosition(control);
         }
-        else if(!intake.GetBottomLimit() && arm.getArmEncoder() < (Constants.kArmSafeLimit+1)){
+        else if(!intake.GetBottomLimit() && arm.getArmEncoder() < (Constants.kArmSafeLimit-1)){
             elevator.setPosition(control);
         }
 

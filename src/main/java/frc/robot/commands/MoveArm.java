@@ -29,25 +29,16 @@ public class MoveArm extends Command {
     public void setControl(double newControl){
         if (newControl >= 5) control = 5;
         else if (newControl <= Constants.kArmMaxLimit) control = Constants.kArmMaxLimit;
-        else if (intake.GetBottomLimit() && elevator.getElevatorEncoder() < (Constants.kElevatorSafeLow+1)){
+        else{
             control = newControl;
+            System.out.println("Set output of arm to user value.");
         }
-        else if(!intake.GetBottomLimit() && elevator.getElevatorEncoder() < (Constants.kElevatorSafeHigh+1)){
-            control = newControl;
-        }
+        System.out.printf("%f = %f\n", newControl, control);
     }
 
     @Override
     public void execute(){
-        if(intake.GetBottomLimit() && elevator.getElevatorEncoder() < (Constants.kElevatorSafeLow+1)){
-            arm.setPosition(control);
-        }
-        else if(!intake.GetBottomLimit() && elevator.getElevatorEncoder() < (Constants.kElevatorSafeHigh+1)){
-            arm.setPosition(control);
-        }
-        else{
-            arm.MoveArm(0);
-        }
+        arm.setPosition(control); // Trusting the state machine.
     }
 
     @Override
