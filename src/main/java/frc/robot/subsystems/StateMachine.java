@@ -264,7 +264,7 @@ public class StateMachine extends SubsystemBase {
         // Prepare to transition.
         transitioning = true;
         
-        oneShotCommands.clear();
+        oneShotCommands = new ArrayList<>();
         double armPos = 0.0;
         double elivatorPos = 0.0;
 

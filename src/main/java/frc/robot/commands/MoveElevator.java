@@ -11,6 +11,7 @@ public class MoveElevator extends Command {
     private Elevator elevator;
     private Arm arm;
     private Intake intake;
+    private double printcount;
     
 
     public MoveElevator(Elevator elevator, Intake intake, Arm arm, double control){
@@ -37,13 +38,16 @@ public class MoveElevator extends Command {
     @Override
     public void execute(){
         if(intake.GetBottomLimit() && (arm.getArmLimit()|| arm.getArmEncoder() < (Constants.kArmSafeLimit-1))){
-            elevator.setPosition(control);
-        }
-        else if(!intake.GetBottomLimit() && arm.getArmEncoder() < (Constants.kArmSafeLimit-1)){
-            elevator.setPosition(control);
-        }
-        elevator.setPosition(control);
-
+             elevator.setPosition(control);
+         }
+         else if(!intake.GetBottomLimit() && arm.getArmEncoder() < (Constants.kArmSafeLimit-1)){
+             elevator.setPosition(control);
+         }
+         elevator.setPosition(control);
+        if (printcount>25) {
+            System.out.printf("Elevator movement here: %f\n", control);
+            printcount=0;
+        } else printcount++;
     }
 
     @Override

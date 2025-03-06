@@ -17,8 +17,9 @@ public class RaiseIntake extends Command {
 
     @Override
     public void execute(){
+        if (intake.GetTopLeftLimit() && intake.GetTopRightLimit()) done = true;
         intake.PositionUp(Constants.kGentley*2);
-        done = true;
+        
     }
 
     @Override

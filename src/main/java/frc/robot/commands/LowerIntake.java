@@ -17,8 +17,9 @@ public class LowerIntake extends Command {
 
     @Override
     public void execute(){
+        if(intake.GetBottomLimit()) done = true;
         intake.PositionDown(Constants.kGentley);
-        done = true;
+        
     }
 
     @Override
