@@ -31,9 +31,7 @@ public class MoveArm extends Command {
         else if (newControl <= Constants.kArmMaxLimit) control = Constants.kArmMaxLimit;
         else{
             control = newControl;
-            System.out.println("Set output of arm to user value.");
         }
-        System.out.printf("%f = %f\n", newControl, control);
     }
 
     @Override

@@ -29,10 +29,7 @@ public class MoveElevator extends Command {
     public void setControl(double newControl){
         if (newControl >= 0) control = 0;
         else if (newControl <= Constants.kElevatorMaxLimit) control = Constants.kElevatorMaxLimit;
-        if(intake.GetBottomLimit() && (arm.getArmLimit() || arm.getArmEncoder() < (Constants.kArmSafeLimit+1))){
-            control = newControl;
-        }
-        else if(!intake.GetBottomLimit() && arm.getArmEncoder() < (Constants.kArmSafeLimit+1)){
+        else {
             control = newControl;
         }
     }
@@ -45,6 +42,7 @@ public class MoveElevator extends Command {
         else if(!intake.GetBottomLimit() && arm.getArmEncoder() < (Constants.kArmSafeLimit-1)){
             elevator.setPosition(control);
         }
+        elevator.setPosition(control);
 
     }
 

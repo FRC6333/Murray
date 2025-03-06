@@ -94,7 +94,7 @@ public class RobotContainer {
         m_MechDrive.setDefaultCommand(m_StandardDrive);
         m_layoutChooser.onChange((DoubleSupplier[] newLayout) -> m_StandardDrive.setLayout(newLayout));
 
-        m_MoveElevator = new MoveElevator(m_Elevator, m_Intake, m_Arm, Constants.kElevatorSafeLow);
+        m_MoveElevator = new MoveElevator(m_Elevator, m_Intake, m_Arm, 0);
         m_Elevator.setDefaultCommand(m_MoveElevator);
         m_MoveArm = new MoveArm(m_Arm, m_Elevator, m_Intake, 0);
         m_Arm.setDefaultCommand(m_MoveArm);
@@ -120,7 +120,9 @@ public class RobotContainer {
         triggerPushIntake.onFalse(m_intakeStop);
 
         Trigger exampleStateSwitch = new JoystickButton(DriveController, XboxController.Button.kX.value);
-        exampleStateSwitch.onFalse(new SetGoalState(m_StateMachine, RobotState.SL3));  // On false so the button has to be pressed AND RELEASED, not held.
+        exampleStateSwitch.onFalse(new SetGoalState(m_StateMachine, RobotState.SL2));  // On false so the button has to be pressed AND RELEASED, not held.
+        Trigger exampleStateSwitch1 = new JoystickButton(DriveController, XboxController.Button.kY.value);
+        exampleStateSwitch1.onFalse(new SetGoalState(m_StateMachine, RobotState.SSF2));  // On false so the button has to be pressed AND RELEASED, not held.
         
         //Trigger triggerLowerIntake = new JoystickButton(DriveController,XboxController.Button.kX.value);
         //triggerLowerIntake.onTrue(new LowerIntake(m_Intake));

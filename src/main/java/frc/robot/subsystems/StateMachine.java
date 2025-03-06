@@ -398,13 +398,13 @@ public class StateMachine extends SubsystemBase {
         
         for (Command command : oneShotCommands) {
             if(!command.isFinished()) status = false;
-            System.out.printf("%s: %b | status: %b\n", command.getClass().getSimpleName(), command.isFinished(), status);
+            //System.out.printf("%s: %b | status: %b\n", command.getClass().getSimpleName(), command.isFinished(), status);
         }
 
         if(elevator.getElevatorEncoder() < (mElevator.getControl()-buffer) || elevator.getElevatorEncoder() > (mElevator.getControl()+buffer)) status = false;
-        System.out.printf("elevator: %f-1 < %f < %f+1 | status: %b\n", mElevator.getControl(), elevator.getElevatorEncoder(), mElevator.getControl(), status);
+        //System.out.printf("elevator: %f-1 < %f < %f+1 | status: %b\n", mElevator.getControl(), elevator.getElevatorEncoder(), mElevator.getControl(), status);
         if(arm.getArmEncoder() < (mArm.getControl()-buffer) || arm.getArmEncoder() > (mArm.getControl()+buffer)) status = false;
-        System.out.printf("arm: %f-1 < %f < %f+1 | status: %b\n", mArm.getControl(), arm.getArmEncoder(), mArm.getControl(), status);
+        //System.out.printf("arm: %f-1 < %f < %f+1 | status: %b\n", mArm.getControl(), arm.getArmEncoder(), mArm.getControl(), status);
 
         if(status){
             System.out.printf("\n\nTransition complete\n\n");
