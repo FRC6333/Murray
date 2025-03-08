@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ClawPull;
 import frc.robot.commands.ClawPush;
+import frc.robot.commands.ClawSafety;
 import frc.robot.commands.ClawStop;
 import frc.robot.commands.DebugAprilTag;
 import frc.robot.commands.DebugHardwareValues;
@@ -112,6 +113,9 @@ public class RobotContainer {
         m_StateMachine = new StateMachine(m_Intake, m_Elevator, m_Arm, m_Wrist, m_MoveElevator, m_MoveArm);
         IterateStateMachine m_StateMachineIterator = new IterateStateMachine(m_StateMachine);
         m_StateMachine.setDefaultCommand(m_StateMachineIterator);
+
+        ClawSafety m_ClawSafe = new ClawSafety(m_Claw, m_Arm);
+        m_Claw.setDefaultCommand(m_ClawSafe);
         
         //m_DebugAprilTag.repeatedly().schedule();
         //System.out.printf("Scheduled AprilTag: %b\n", m_DebugAprilTag.isScheduled());
@@ -193,7 +197,7 @@ public class RobotContainer {
         triggerclawin.onFalse(m_clawstop);
 
         Trigger triggerclawout = new JoystickButton(Box2, 4);
-        triggerclawout.onTrue(new ClawPush(m_Claw));
+        triggerclawout.whileTrue((new ClawPush(m_Claw)).repeatedly());
         triggerclawout.onFalse(m_clawstop);
         
         Trigger triggerSafety = new JoystickButton(Box2,5);

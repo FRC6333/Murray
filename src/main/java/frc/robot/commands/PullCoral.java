@@ -15,7 +15,7 @@ public class PullCoral extends Command {
 
     @Override
     public void execute(){
-        double speed = -1*0.7;
+        double speed = -1*0.5;
         intake.PullPush(speed);
         System.out.print("Suck in Coral\n");
         done = true;
