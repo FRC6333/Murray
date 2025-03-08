@@ -18,7 +18,7 @@ public final class Constants {
 
     // Drive flipping
     public static final double kInvertForward = 0.8;
-    public static final double kInvertStrafe = -0.8*kInvertForward;
+    public static final double kInvertStrafe = -1*kInvertForward;
     public static final double kInvertTurn = -0.5;
 
     //motor assignement constants
