@@ -14,7 +14,7 @@ public class JogElevatorDown extends Command {
     @Override
     public void execute(){
         System.out.printf("[%f]:Jog Eliv Down\n", Timer.getTimestamp());
-        elevatorControl.setControl(elevatorControl.getControl()+0.2);
+        elevatorControl.setControl(elevatorControl.getControl()+0.3);
         done = true;
     }
 

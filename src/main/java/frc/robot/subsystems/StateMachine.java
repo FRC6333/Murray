@@ -99,7 +99,7 @@ public class StateMachine extends SubsystemBase {
     private void getPlan(){
         System.out.printf("\n\nGetting Plan [%s -> %s]\n\n", current.name(), goal.name());
         plan = null;
-        step = 0;
+        step = -1;
         if (current == goal) return;
         // Theres a better way to encode this awfulness, but honestly this is braindead simple enough for me to write it.
         else if(current == RobotState.SS){
