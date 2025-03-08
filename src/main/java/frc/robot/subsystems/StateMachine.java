@@ -99,7 +99,7 @@ public class StateMachine extends SubsystemBase {
     private void getPlan(){
         System.out.printf("\n\nGetting Plan [%s -> %s]\n\n", current.name(), goal.name());
         plan = null;
-        step = -1;
+        step = 0;
         if (current == goal) return;
         // Theres a better way to encode this awfulness, but honestly this is braindead simple enough for me to write it.
         else if(current == RobotState.SS){
@@ -391,7 +391,7 @@ public class StateMachine extends SubsystemBase {
 
     private void checkTransition(){
         boolean status = true;
-        double buffer = 1; // How close to the setpoint is "close enough" in motor revolutions.
+        double buffer = 2.5; // How close to the setpoint is "close enough" in motor revolutions.
         
         //System.out.println("checkTransiti0n");
         for (Command command : oneShotCommands) {
