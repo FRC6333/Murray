@@ -12,7 +12,9 @@ import frc.robot.Constants;
 
 public class Claw extends SubsystemBase {
     private SparkMax ClawMotor = new SparkMax(Constants.kClawMotor, MotorType.kBrushless);
-
+   
+    
+    
     public Claw(){
         SparkMaxConfig armConfig = new SparkMaxConfig();
         armConfig.idleMode(IdleMode.kBrake);
@@ -28,4 +30,9 @@ public class Claw extends SubsystemBase {
     public void clawOpen(){
         ClawMotor.set(Constants.kGentley*-1);
     }
+
+    public double getSpeed(){
+       return ClawMotor.get();
+    }
+    
 }

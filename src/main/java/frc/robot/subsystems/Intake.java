@@ -30,9 +30,9 @@ public class Intake extends SubsystemBase {
         SparkMaxConfig intakePullConfig = new SparkMaxConfig();
         SparkMaxConfig intakePosConfigInverted = new SparkMaxConfig();
 
-        intakePosConfig.idleMode(IdleMode.kCoast);
+        intakePosConfig.idleMode(IdleMode.kBrake);
         intakePullConfig.idleMode(IdleMode.kBrake);
-        intakePosConfigInverted.idleMode(IdleMode.kCoast);
+        intakePosConfigInverted.idleMode(IdleMode.kBrake);
         intakePosConfigInverted.inverted(true);
         
         PostitionMotorL.configure(intakePosConfigInverted, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -83,12 +83,10 @@ public class Intake extends SubsystemBase {
         if (!GetBottomLimit()) {
             PostitionMotorL.set(Math.abs(speed)*-1);  // Assure the intake is only moving DOWN.
             PostitionMotorR.set(Math.abs(speed)*-1);
-            System.out.println("arrrggggggggggggg");
-        }
+            }
         else{
             StopPosition();
-            System.out.println("IM DONE :D");
-
+            
         } 
     }
 

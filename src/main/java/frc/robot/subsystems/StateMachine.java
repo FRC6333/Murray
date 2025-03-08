@@ -37,6 +37,7 @@ public class StateMachine extends SubsystemBase {
 
     public enum ActuatorPosition {
         LI (-7.958),    //lift floor intake handoff ready position
+        //LI (0.00),    //lift floor intake handoff ready position
         LS (-30.836),   //lift safe lowest limit with intake down
         LSU(-70.625),  //lift safe lowest limit with intake up
         LHO(-71.978),  //lift human handoff 
@@ -85,10 +86,7 @@ public class StateMachine extends SubsystemBase {
     private MoveArm mArm;
 
     private ArrayList<Command> oneShotCommands = new ArrayList<>();
-    
-    
-
-
+   
     public StateMachine(Intake intake, Elevator elevator, Arm arm, Wrist wrist, MoveElevator mElevator, MoveArm mArm){
         this.intake = intake;
         this.elevator = elevator;
@@ -259,7 +257,6 @@ public class StateMachine extends SubsystemBase {
             transitioning = false;
             return;
         }
-        System.out.printf("\n\nExecuting step %d [%s]\n",step, plan[step].name());
         
         // Prepare to transition.
         transitioning = true;
@@ -271,118 +268,118 @@ public class StateMachine extends SubsystemBase {
         // Setup values/commands for transition.
         if(plan[step] == RobotState.SINT){
             oneShotCommands.add(new LowerIntake(intake));
-            oneShotCommands.add(new WristHorizontal(wrist, elevator, intake));
+            oneShotCommands.add(new WristHorizontal(wrist));
         }
         else if(plan[step] == RobotState.SINT2){
             oneShotCommands.add(new LowerIntake(intake));
-            oneShotCommands.add(new WristHorizontal(wrist, elevator, intake));
+            oneShotCommands.add(new WristHorizontal(wrist));
             elivatorPos = ActuatorPosition.LI.getPostion();
         }
         else if(plan[step] == RobotState.SSF){
             oneShotCommands.add(new LowerIntake(intake));
-            oneShotCommands.add(new WristHorizontal(wrist, elevator, intake));
+            oneShotCommands.add(new WristHorizontal(wrist));
             elivatorPos = ActuatorPosition.LS.getPostion();
         }
         else if(plan[step] == RobotState.SSF2){
             oneShotCommands.add(new LowerIntake(intake));
-            oneShotCommands.add(new WristHorizontal(wrist, elevator, intake));
+            oneShotCommands.add(new WristHorizontal(wrist));
             elivatorPos = ActuatorPosition.LS.getPostion();
             armPos = ActuatorPosition.AS.getPostion();
         }
         else if(plan[step] == RobotState.SHO){
             oneShotCommands.add(new LowerIntake(intake));
-            oneShotCommands.add(new WristHorizontal(wrist, elevator, intake));
+            oneShotCommands.add(new WristHorizontal(wrist));
             elivatorPos = ActuatorPosition.LHO.getPostion();
             armPos = ActuatorPosition.AH.getPostion();
         }
         else if(plan[step] == RobotState.SL1D){
             oneShotCommands.add(new LowerIntake(intake));
-            oneShotCommands.add(new WristHorizontal(wrist, elevator, intake));
+            oneShotCommands.add(new WristHorizontal(wrist));
             elivatorPos = ActuatorPosition.LC1.getPostion();
             armPos = ActuatorPosition.AC1.getPostion();
         }
         else if(plan[step] == RobotState.SL1){
             oneShotCommands.add(new RaiseIntake(intake));
-            oneShotCommands.add(new WristHorizontal(wrist, elevator, intake));
+            oneShotCommands.add(new WristHorizontal(wrist));
             elivatorPos = ActuatorPosition.LC1.getPostion();
             armPos = ActuatorPosition.AC1.getPostion();
         }
         else if(plan[step] == RobotState.SL2D){
             oneShotCommands.add(new LowerIntake(intake));
-            oneShotCommands.add(new WristVertical(wrist, elevator, intake));
+            oneShotCommands.add(new WristVertical(wrist));
             elivatorPos = ActuatorPosition.LC2.getPostion();
             armPos = ActuatorPosition.AC2.getPostion();
 
         }
         else if(plan[step] == RobotState.SL2){
             oneShotCommands.add(new RaiseIntake(intake));
-            oneShotCommands.add(new WristVertical(wrist, elevator, intake));
+            oneShotCommands.add(new WristVertical(wrist));
             elivatorPos = ActuatorPosition.LC2.getPostion();
             armPos = ActuatorPosition.AC2.getPostion();
 
         }
         else if(plan[step] == RobotState.SL3D){
             oneShotCommands.add(new LowerIntake(intake));
-            oneShotCommands.add(new WristVertical(wrist, elevator, intake));
+            oneShotCommands.add(new WristVertical(wrist));
             elivatorPos = ActuatorPosition.LC3.getPostion();
             armPos = ActuatorPosition.AC3.getPostion();
 
         }
         else if(plan[step] == RobotState.SL3){
             oneShotCommands.add(new RaiseIntake(intake));
-            oneShotCommands.add(new WristVertical(wrist, elevator, intake));
+            oneShotCommands.add(new WristVertical(wrist));
             elivatorPos = ActuatorPosition.LC3.getPostion();
             armPos = ActuatorPosition.AC3.getPostion();
         }
         else if(plan[step] == RobotState.SL4D){
             oneShotCommands.add(new LowerIntake(intake));
-            oneShotCommands.add(new WristVertical(wrist, elevator, intake));
+            oneShotCommands.add(new WristVertical(wrist));
             elivatorPos = ActuatorPosition.LC4.getPostion();
             armPos = ActuatorPosition.AC4.getPostion();
         }
         else if(plan[step] == RobotState.SL4){
             oneShotCommands.add(new RaiseIntake(intake));
-            oneShotCommands.add(new WristVertical(wrist, elevator, intake));
+            oneShotCommands.add(new WristVertical(wrist));
             elivatorPos = ActuatorPosition.LC4.getPostion();
             armPos = ActuatorPosition.AC4.getPostion();
         }
         else if(plan[step] == RobotState.SA2D){
             oneShotCommands.add(new LowerIntake(intake));
-            oneShotCommands.add(new WristHorizontal(wrist, elevator, intake));
+            oneShotCommands.add(new WristHorizontal(wrist));
             elivatorPos = ActuatorPosition.LA2.getPostion();
             armPos = ActuatorPosition.AA2.getPostion();
         }
         else if(plan[step] == RobotState.SA2){
             oneShotCommands.add(new RaiseIntake(intake));
-            oneShotCommands.add(new WristHorizontal(wrist, elevator, intake));
+            oneShotCommands.add(new WristHorizontal(wrist));
             elivatorPos = ActuatorPosition.LA2.getPostion();
             armPos = ActuatorPosition.AA2.getPostion();
         }
         else if(plan[step] == RobotState.SA3D){
             oneShotCommands.add(new LowerIntake(intake));
-            oneShotCommands.add(new WristHorizontal(wrist, elevator, intake));
+            oneShotCommands.add(new WristHorizontal(wrist));
             elivatorPos = ActuatorPosition.LA3.getPostion();
             armPos = ActuatorPosition.AA3.getPostion();
         }
         else if(plan[step] == RobotState.SA3){
             oneShotCommands.add(new RaiseIntake(intake));
-            oneShotCommands.add(new WristHorizontal(wrist, elevator, intake));
+            oneShotCommands.add(new WristHorizontal(wrist));
             elivatorPos = ActuatorPosition.LA3.getPostion();
             armPos = ActuatorPosition.AA3.getPostion();
         }
         else if(plan[step] == RobotState.SB){
             oneShotCommands.add(new LowerIntake(intake));
-            oneShotCommands.add(new WristHorizontal(wrist, elevator, intake));
+            oneShotCommands.add(new WristHorizontal(wrist));
             elivatorPos = ActuatorPosition.LB.getPostion();
             armPos = ActuatorPosition.AB.getPostion();
         }
         else if(plan[step] == RobotState.SH){
             oneShotCommands.add(new LowerIntake(intake));
-            oneShotCommands.add(new WristHorizontal(wrist, elevator, intake));
+            oneShotCommands.add(new WristHorizontal(wrist));
             elivatorPos = ActuatorPosition.LH.getPostion();
         }
 
-        System.out.printf("Step sets eliv: %f and arm: %f\n\n", elivatorPos, armPos);
+        System.out.printf("Step sets eliv: %f and arm: %f\n", elivatorPos, armPos);
         // Set up commands to transition.
         for (Command command : oneShotCommands) {
             command.schedule();
@@ -396,6 +393,7 @@ public class StateMachine extends SubsystemBase {
         boolean status = true;
         double buffer = 1; // How close to the setpoint is "close enough" in motor revolutions.
         
+        //System.out.println("checkTransiti0n");
         for (Command command : oneShotCommands) {
             if(!command.isFinished()) status = false;
             //System.out.printf("%s: %b | status: %b\n", command.getClass().getSimpleName(), command.isFinished(), status);
@@ -407,7 +405,7 @@ public class StateMachine extends SubsystemBase {
         //System.out.printf("arm: %f-1 < %f < %f+1 | status: %b\n", mArm.getControl(), arm.getArmEncoder(), mArm.getControl(), status);
 
         if(status){
-            System.out.printf("\n\nTransition complete\n\n");
+            System.out.printf("Transition complete\n");
             current = plan[step];
             transitioning = false;
         }
@@ -415,9 +413,11 @@ public class StateMachine extends SubsystemBase {
 
     public void setGoal(RobotState goal){
         this.goal = goal;
+        System.out.println("SetGoal");
     }
 
     public void iterateStateMachine(){
+        //System.out.printf("iterateStateMachine current %f  goal %f",current,goal);
         if(current == goal) return;
         
         if(plan == null) getPlan();

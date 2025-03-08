@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 
+import com.revrobotics.ColorSensorV3;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
@@ -11,6 +12,9 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -21,6 +25,10 @@ public class Arm extends SubsystemBase {
     private RelativeEncoder ArmEncoder = ArmMotor.getEncoder();
     private PIDController ArmPID = new PIDController(Constants.ArmkP, Constants.ArmkI, Constants.ArmkD);
 
+    private final I2C.Port i2cPort = I2C.Port.kOnboard;
+    private final ColorSensorV3 ColorSensor = new ColorSensorV3(i2cPort);
+
+    private final PowerDistribution powerpannel = new PowerDistribution(12, ModuleType.kRev);
 
     public Arm(){
         SparkMaxConfig armConfig = new SparkMaxConfig();
@@ -74,6 +82,11 @@ public class Arm extends SubsystemBase {
         if (Math.abs(speed) > 0.4) speed = 0.4 * Math.signum(speed);
         ArmMotor.set(speed);
     }
-    
+    public double ReadProximity () {
+        return ColorSensor.getProximity();
+      }
 
+    public double getChannelCurrent (int channel) {
+        return powerpannel.getCurrent(channel);
+    }
 }

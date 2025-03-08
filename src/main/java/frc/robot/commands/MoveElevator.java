@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
@@ -11,7 +12,7 @@ public class MoveElevator extends Command {
     private Elevator elevator;
     private Arm arm;
     private Intake intake;
-    private double printcount;
+    //private double printcount;
     
 
     public MoveElevator(Elevator elevator, Intake intake, Arm arm, double control){
@@ -44,10 +45,14 @@ public class MoveElevator extends Command {
              elevator.setPosition(control);
          }
          elevator.setPosition(control);
-        if (printcount>25) {
+        /*
+        if (printcount>40) {
             System.out.printf("Elevator movement here: %f\n", control);
             printcount=0;
         } else printcount++;
+         */
+        SmartDashboard.putNumber("Elevator Position:", elevator.getElevatorEncoder());
+        SmartDashboard.putNumber("Color Sensor", arm.ReadProximity());
     }
 
     @Override

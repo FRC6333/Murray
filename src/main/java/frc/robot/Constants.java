@@ -12,19 +12,21 @@ public final class Constants {
 
     // Joystick assignments.
     public static final int kDriveJoystick = 0;
-    public static final int kArmJoystick = 1;
+    //public static final int kArmJoystick = 1;
+    public static final int kBox1 = 1;
+    public static final int kBox2 = 2;
 
     // Drive flipping
-    public static final double kInvertForward = -1;
+    public static final double kInvertForward = 1;
     public static final double kInvertStrafe = -1*kInvertForward;
-    public static final double kInvertTurn = 1;
+    public static final double kInvertTurn = -1;
 
     //motor assignement constants
         //Drive Motors
-        public static final int kRightFrontMotor = 2;
-        public static final int kRightRearMotor  = 4;
-        public static final int kLeftFrontMotor  = 1;
-        public static final int kLeftRearMotor   = 3;
+        public static final int kRightFrontMotor = 3;
+        public static final int kRightRearMotor  = 1;
+        public static final int kLeftFrontMotor  = 2;
+        public static final int kLeftRearMotor   = 4;
 
         // Intake motors
         public static final int kIntakePositionMotorL = 6;
